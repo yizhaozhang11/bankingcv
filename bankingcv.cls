@@ -284,7 +284,7 @@
 % - "tiktok"
 % - "instagram"
 % - "soundcloud"
-% - "steam
+% - "steam"
 % - "xbox"
 % - "playstation"
 % - "battlenet"
