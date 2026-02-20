@@ -1,5 +1,6 @@
 %% start of file `bankingcvskillmatrix.sty'.
 %% Copyright 2021 David Seus (cryptointerest@posteo.de), 2022-2026 moderncv maintainers (github.com/moderncv).
+%% Copyright 2026 yizhaozhang11 (github.com/yizhaozhang11/bankingcv).
 %
 % This package provides a skill matrix template for the moderncv package.
 % Some recruiting firms require applicants to rate their skills, computer
@@ -171,7 +172,7 @@
 %             \setcvskilllegendcolumns[\widthof{``Legend''}][0.45]%   adjust both left descriptor column and string column
 %
 %         Note
-%             - Due to implementation of \cvskilllegend for style 'fancy' (bankingcvbodyv)
+%             - Definition of \cvskilllegend for the banking style
 %                 the first optional variable has no effect in this case.
 %             - For the styles 'classic' and 'casual' the first column is set to hintscolumnwidth such that
 %                 it aligns with the rest of the entries. A readjustment of the first column should therefore
@@ -186,11 +187,11 @@
 %
 %    \recompute@cvskillmatrix@lengths
 %         compute all lengths necessary for the skill matrix depending on
-%         the moderncv style (bankingcvbody)
+%         the banking style (bankingcvbody)
 %
 %         Input:  none
 %
-%         Example usage (only internally in bankingcvbody<i-v>.sty)
+%         Example usage (only internally in bankingcvbody.sty)
 %             \recompute@cvskillmatrix@lengths
 %
 %
@@ -203,27 +204,14 @@
 %                identification
 %-------------------------------------------------------------------------------
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{bankingcvskillmatrix}[2026-01-31 v2.5.1 modern curriculum vitae and letter skill matrix]
+\ProvidesPackage{bankingcvskillmatrix}[2026-02-20 v1.0.0 banking-style curriculum vitae skill matrix]
 
-% The definitions need to be adjusted depending on which bankingcvbody<i-v>.sty style is usde.
-% body type options: "bankingcvbodyi" (default), "bankingcvbodyii", "bankingcvbodyiii", "bankingcvbodyiv" or "bankingcvbodyv"
-\@initializeif{\if@bankingcvbodyi}\@bankingcvbodyifalse
-\DeclareOption{bankingcvbodyi}{\@bankingcvbodyitrue\@bankingcvbodyiifalse\@bankingcvbodyiiifalse\@bankingcvbodyivfalse\@bankingcvbodyvfalse}
-\@initializeif{\if@bankingcvbodyii}\@bankingcvbodyiifalse % this option is added in case bankingcvbodyii gets implemented standalone
-\DeclareOption{bankingcvbodyii}{\@bankingcvbodyifalse\@bankingcvbodyiitrue\@bankingcvbodyiiifalse\@bankingcvbodyivfalse\@bankingcvbodyvfalse}
-\@initializeif{\if@bankingcvbodyiii}\@bankingcvbodyiiifalse
-\DeclareOption{bankingcvbodyiii}{\@bankingcvbodyifalse\@bankingcvbodyiifalse\@bankingcvbodyiiitrue\@bankingcvbodyivfalse\@bankingcvbodyvfalse}
-\@initializeif{\if@bankingcvbodyiv}\@bankingcvbodyivfalse
-\DeclareOption{bankingcvbodyiv}{\@bankingcvbodyifalse\@bankingcvbodyiifalse\@bankingcvbodyiiifalse\@bankingcvbodyivtrue\@bankingcvbodyvfalse}
-\@initializeif{\if@bankingcvbodyv}\@bankingcvbodyvfalse
-\DeclareOption{bankingcvbodyv}{\@bankingcvbodyifalse\@bankingcvbodyiifalse\@bankingcvbodyiiifalse\@bankingcvbodyivfalse\@bankingcvbodyvtrue}
 
 % If option `circle` is specified, use circles instead of small rectangles for rating skills
 \@initializeif{\if@cvskillcircle}\@cvskillcirclefalse
 \DeclareOption{circle}{\@cvskillcircletrue}
 
 \DeclareOption*{}% avoid choking on unknown options
-\ExecuteOptions{bankingcvbodyi}
 \ProcessOptions*\relax% \ProcessOptions* processes the options in the order provided (i.e., with the later ones possibly overriding the former ones), while \ProcessOptions processes them in the order of the package
 
 %-------------------------------------------------------------------------------
@@ -232,12 +220,8 @@
 \RequirePackage{tikz}
 \usetikzlibrary{babel}
 \RequirePackage{multirow}
-% package arydshln is needed for the dashed lines but is incompatible with fancy style
-\if@bankingcvbodyv%
-%     \RequirePackage{arydshln} % incompatible with fancy style
-\else%
-    \RequirePackage{arydshln} % incompatible with fancy style
-\fi
+% package arydshln is needed for dashed lines in the skill matrix legend
+\RequirePackage{arydshln}
 
 % %-------------------------------------------------------------------------------
 % %                \cvskill command
@@ -290,105 +274,39 @@
 \@initializelength{\skilllegend@padding}
 \@initializelength{\skilllegend@bodylength}
 
-% \separatorrulewidth is defined in bankingcvbodyv.sty and we need to
-% define it to not throw an error in the other cases
-\if@bankingcvbodyv%
-%
-\else%
-    \@initializelength{\separatorrulewidth}
-    \setlength{\separatorrulewidth}{1ex}
-\fi
+\@initializelength{\separatorrulewidth}
+\setlength{\separatorrulewidth}{1ex}
 
 \DeclareDocumentCommand{\skilllegend@leftdesriptorfactor}{}{}%
 %% DEFINITION \recompute@cvskillmatrix@lengths
 % declare the command \recompute@cvskillmatrix@lengths empty
 \DeclareDocumentCommand{\recompute@cvskillmatrix@lengths}{}{}%
 %   compute all lengths necessary for the skill matrix depending on
-%   the moderncv style (bankingcvbody)
+%   the banking style (bankingcvbody)
 %
 %   Input:  none
 %
-%   Example usage (only internally in bankingcvbody<i-v>.sty)
+%   Example usage (only internally in bankingcvbody.sty)
 %       \recompute@cvskillmatrix@lengths
 
-% Definition of \recompute@cvskillmatrix@lengths for bankingcvbodyi
-\if@bankingcvbodyi%
-    \RenewDocumentCommand{\recompute@cvskillmatrix@lengths}{}{%
-        \setlength{\skillmatrix@padding}{1ex}%
-        \setlength{\skillmatrix@hintscolumnwidth}{\hintscolumnwidth}%
-        \setlength{\cvskill@width}{\widthof{\cvskill{5}}}%
-        \setlength{\cvskill@experiencewidth}{\widthof{``Year''}}%
-        \setlength{\skillmatrix@bodylength}{\maincolumnwidth}%
-        \setlength{\skillmatrix@columnwidth}{0.45\skillmatrix@bodylength}%
-        \setlength{\cvskill@descriptorwidth}{\skillmatrix@columnwidth-\cvskill@width-\cvskill@experiencewidth}%
-        \setlength{\skillmatrix@commentwidth}{\skillmatrix@bodylength-\skillmatrix@columnwidth-3\skillmatrix@padding}%
-        % lengths and definitions needed for the legends
-        % note that \skillmatrix@padding also affects the appearance of legends
-        \setlength{\skilllegend@padding}{0.25ex}%
-        \setlength{\skilllegend@hintscolumnwidth}{\hintscolumnwidth}%
-        \setlength{\skilllegend@bodylength}{\skillmatrix@bodylength}%
-        \RenewDocumentCommand{\skilllegend@leftdesriptorfactor}{}{0.5}%
-    }
-\fi
-% Definition of \recompute@cvskillmatrix@lengths for bankingcvbodyiii
-\if@bankingcvbodyiii%
-    \RenewDocumentCommand{\recompute@cvskillmatrix@lengths}{}{%
-        \setlength{\skillmatrix@padding}{1ex}%
-        \setlength{\separatorcolumnwidth}{\skillmatrix@padding}%
-        \setlength{\skillmatrix@hintscolumnwidth}{\widthof{``Language''}}%
-        \setlength{\cvskill@width}{\widthof{\cvskill{5}}}%
-        \setlength{\cvskill@experiencewidth}{\widthof{``Year''}}%
-        \setlength{\skillmatrix@bodylength}{\maincolumnwidth-\skillmatrix@hintscolumnwidth-\separatorcolumnwidth}%
-        \setlength{\skillmatrix@columnwidth}{0.45\skillmatrix@bodylength}%
-        \setlength{\cvskill@descriptorwidth}{\skillmatrix@columnwidth-\cvskill@width-\cvskill@experiencewidth}%
-        \setlength{\skillmatrix@commentwidth}{\skillmatrix@bodylength-\skillmatrix@columnwidth-3\skillmatrix@padding}%
-        % lengths and definitions needed for the legends
-        % note that \skillmatrix@padding also affects the appearance of legends
-        \setlength{\skilllegend@padding}{0.25ex}%
-        \setlength{\skilllegend@hintscolumnwidth}{\skillmatrix@hintscolumnwidth}%
-        \setlength{\skilllegend@bodylength}{\skillmatrix@bodylength}%
-        \RenewDocumentCommand{\skilllegend@leftdesriptorfactor}{}{0.5}%
-    }
-\fi
-% Definition of \recompute@cvskillmatrix@lengths for bankingcvbodyiv
-\if@bankingcvbodyiv%
-    \RenewDocumentCommand{\recompute@cvskillmatrix@lengths}{}{%
-        \setlength{\skillmatrix@padding}{1ex}
-        \setlength{\separatorcolumnwidth}{\skillmatrix@padding}
-        \setlength{\skillmatrix@hintscolumnwidth}{\widthof{``Language''}}
-        \setlength{\cvskill@width}{\widthof{\cvskill{5}}}
-        \setlength{\cvskill@experiencewidth}{\widthof{``Year''}}
-        \setlength{\skillmatrix@bodylength}{\maincolumnwidth-\skillmatrix@hintscolumnwidth-\separatorcolumnwidth}
-        \setlength{\skillmatrix@columnwidth}{0.45\skillmatrix@bodylength}%
-        \setlength{\cvskill@descriptorwidth}{\skillmatrix@columnwidth-\cvskill@width-\cvskill@experiencewidth}
-        \setlength{\skillmatrix@commentwidth}{\skillmatrix@bodylength-\skillmatrix@columnwidth-3\skillmatrix@padding}%
-        % lengths and definitions needed for the legends
-        % note that \skillmatrix@padding also affects the appearance of legends
-        \setlength{\skilllegend@padding}{0.25ex}
-        \setlength{\skilllegend@hintscolumnwidth}{0ex}%\skillmatrix@hintscolumnwidth
-        \setlength{\skilllegend@bodylength}{\maincolumnwidth}
-        \RenewDocumentCommand{\skilllegend@leftdesriptorfactor}{}{0.45}%
-    }
-\fi
-% Definition of \recompute@cvskillmatrix@lengths for bankingcvbodyv
-\if@bankingcvbodyv%
-    \RenewDocumentCommand{\recompute@cvskillmatrix@lengths}{}{%
-        \setlength{\skillmatrix@padding}{1ex}%
-        \setlength{\skillmatrix@hintscolumnwidth}{\widthof{``Languages''}}%
-        \setlength{\cvskill@width}{\widthof{\cvskill{5}}}%
-        \setlength{\cvskill@experiencewidth}{\widthof{``Year''}}%
-        \setlength{\skillmatrix@bodylength}{\maincolumnwidth-\skillmatrix@hintscolumnwidth-\skillmatrix@padding}%\skillmatrix@hintscolumnwidth
-        \setlength{\skillmatrix@columnwidth}{0.45\skillmatrix@bodylength}%
-        \setlength{\cvskill@descriptorwidth}{\skillmatrix@columnwidth-\cvskill@width-\cvskill@experiencewidth}%
-        \setlength{\skillmatrix@commentwidth}{\skillmatrix@bodylength-\skillmatrix@columnwidth-3\skillmatrix@padding}%
-        % lengths and definitions needed for the legends
-        % note that \skillmatrix@padding also affects the appearance of legends
-        \setlength{\skilllegend@padding}{0.25ex}%
-        \setlength{\skilllegend@hintscolumnwidth}{\skillmatrix@hintscolumnwidth}%
-        \setlength{\skilllegend@bodylength}{\maincolumnwidth}%
-        \RenewDocumentCommand{\skilllegend@leftdesriptorfactor}{}{0.48}%
-    }%
-\fi
+% Definition of \recompute@cvskillmatrix@lengths for the banking style
+\RenewDocumentCommand{\recompute@cvskillmatrix@lengths}{}{%
+    \setlength{\skillmatrix@padding}{1ex}%
+    \setlength{\separatorcolumnwidth}{\skillmatrix@padding}%
+    \setlength{\skillmatrix@hintscolumnwidth}{\widthof{``Language''}}%
+    \setlength{\cvskill@width}{\widthof{\cvskill{5}}}%
+    \setlength{\cvskill@experiencewidth}{\widthof{``Year''}}%
+    \setlength{\skillmatrix@bodylength}{\maincolumnwidth-\skillmatrix@hintscolumnwidth-\separatorcolumnwidth}%
+    \setlength{\skillmatrix@columnwidth}{0.45\skillmatrix@bodylength}%
+    \setlength{\cvskill@descriptorwidth}{\skillmatrix@columnwidth-\cvskill@width-\cvskill@experiencewidth}%
+    \setlength{\skillmatrix@commentwidth}{\skillmatrix@bodylength-\skillmatrix@columnwidth-3\skillmatrix@padding}%
+    % lengths and definitions needed for the legends
+    % note that \skillmatrix@padding also affects the appearance of legends
+    \setlength{\skilllegend@padding}{0.25ex}%
+    \setlength{\skilllegend@hintscolumnwidth}{\skillmatrix@hintscolumnwidth}%
+    \setlength{\skilllegend@bodylength}{\skillmatrix@bodylength}%
+    \RenewDocumentCommand{\skilllegend@leftdesriptorfactor}{}{0.5}%
+}
 
 % %-------------------------------------------------------------------------------
 % %                \setcvskillcolumns and \setcvskilllegendcolumns
@@ -521,7 +439,7 @@
 %       \setcvskilllegendcolumns[\widthof{``Legend''}][0.45]%   adjust both left descriptor column and string column
 %
 %   Note
-%       - Due to implementation of \cvskilllegend for style 'fancy' (bankingcvbodyv)
+%       - Definition of \cvskilllegend for the banking style
 %         the first optional variable has no effect in this case.
 %       - For the styles 'classic' and 'casual' the first column is set to hintscolumnwidth such that
 %         it aligns with the rest of the entries. A readjustment of the first column should therefore
@@ -547,15 +465,7 @@
         % Case \setcvskilllegendcolumns, \setcvskilllegendcolumns[<width>], \setcvskilllegendcolumns[<width>][]
         % or \setcvskilllegendcolumns[<width>][<somefactor>]
         \setlength{\skilllegend@hintscolumnwidth}{\arg@new@legend@hintscolumnwidth}%
-        \if@bankingcvbodyi%
-            \setlength{\skilllegend@bodylength}{\textwidth-\skilllegend@hintscolumnwidth-\separatorcolumnwidth}%
-        \fi%
-        \if@bankingcvbodyiii%
-            \setlength{\skilllegend@bodylength}{\textwidth-\skilllegend@hintscolumnwidth-\separatorcolumnwidth}%
-        \fi%
-        \if@bankingcvbodyiv%
-            \setlength{\skilllegend@bodylength}{\maincolumnwidth-\skilllegend@hintscolumnwidth-\separatorcolumnwidth}%
-        \fi%
+        \setlength{\skilllegend@bodylength}{\textwidth-\skilllegend@hintscolumnwidth-\separatorcolumnwidth}%
         % in case second argument is given but left empty use default
         \ifdefempty{\arg@new@legend@leftDescriptorFactor}{%
             % Case \setcvskilllegendcolumns[<width>][] do nothing here and leave default values unaltered
@@ -603,7 +513,7 @@
 \NewDocumentCommand\skillLegend@defaultLevelThree{}{extensive project experience}
 \NewDocumentCommand\skillLegend@defaultLevelFour{}{deepened expert knowledge}
 \NewDocumentCommand\skillLegend@defaultLevelFive{}{expert\,/\,specialist}
-% Redefinition of \cvskilllegend valid for bankingcvbodyi, bankingcvbodyii, bankingcvbodyiii
+% Definition of \cvskilllegend for the banking style
 \RenewDocumentCommand\cvskilllegend{s +O{.25em} +O{\skillLegend@defaultLevelOne} +O{\skillLegend@defaultLevelTwo} +O{\skillLegend@defaultLevelThree} +O{\skillLegend@defaultLevelFour} +O{\skillLegend@defaultLevelFive} +m}{%
     \IfBooleanTF#1{% if a star is given, add dashed line
         \begingroup%
@@ -647,97 +557,6 @@
         \par\addvspace{#2}%
     }%
 }%
-% Redefinition of \cvskilllegend valid for bankingcvbodyiv
-\if@bankingcvbodyiv%
-    \RenewDocumentCommand\cvskilllegend{s +O{.25em} +O{\skillLegend@defaultLevelOne} +O{\skillLegend@defaultLevelTwo} +O{\skillLegend@defaultLevelThree} +O{\skillLegend@defaultLevelFour} +O{\skillLegend@defaultLevelFive} +m}{%
-        \def\arg@legendString{#8}%
-        \ifdefempty{\arg@legendString}{%
-        }{%
-            \cvitem[0.25em]{\hintstyle{#8}}{}%
-        }%
-        \IfBooleanTF#1{% if a star is given, add dashed line
-            \begingroup%
-                % recalculate desrciptor widths on the fly. Allows for different padding
-                % in the stared and nonstared case
-                \setlength{\cvskilllegend@leftdescriptorwidth}{\skilllegend@leftdesriptorfactor\skilllegend@bodylength-\cvskill@width-\skillmatrix@padding-4\skilllegend@padding}%
-                \setlength{\cvskilllegend@rightdescriptorwidth}{\skilllegend@bodylength-\skilllegend@leftdesriptorfactor\skilllegend@bodylength-\cvskill@width-\skillmatrix@padding-4\skilllegend@padding}%
-                \arrayrulecolor{bodyrulecolor}
-                \begin{tabular}{@{}p{\skilllegend@hintscolumnwidth}
-                                @{\hspace{\separatorcolumnwidth}}p{\cvskill@width}@{\hspace{\skilllegend@padding}};{.6pt/1pt}%
-                                p{2\skilllegend@padding}%
-                                p{\cvskilllegend@leftdescriptorwidth}@{\hspace{\skillmatrix@padding}}%
-                                p{\cvskill@width}@{\hspace{\skilllegend@padding}};{.6pt/1pt}%
-                                p{2\skilllegend@padding}p{\cvskilllegend@rightdescriptorwidth}@{}}%
-                    \raggedleft\hintstyle{}  & \cvskill{1} & & {\skillLegend@FontSize #3} & \cvskill{3} & & {\skillLegend@FontSize #5 } \\
-                                %
-                            & \cvskill{2} & & \multirow{2}{\cvskilllegend@leftdescriptorwidth}{{\skillLegend@FontSize #4}} & \cvskill{4} &  &{\skillLegend@FontSize #6 } \\
-                        %
-                            & & &   & \cvskill{5}& & {\skillLegend@FontSize #7 }
-                \end{tabular}%
-            \endgroup%
-            \par\addvspace{#2}}{
-            \begingroup%
-                % oddly enough, we should only need to subtract 2 paddings in the descritorwidths.
-                % but while testing I got overflow of text into the margin
-                \setlength{\cvskilllegend@leftdescriptorwidth}{\skilllegend@leftdesriptorfactor\skilllegend@bodylength-\cvskill@width-\skillmatrix@padding-4\skilllegend@padding}%
-                \setlength{\cvskilllegend@rightdescriptorwidth}{\skilllegend@bodylength-\skilllegend@leftdesriptorfactor\skilllegend@bodylength-\cvskill@width-\skillmatrix@padding-5\skilllegend@padding}%
-                \begin{tabular}{@{}p{\skilllegend@hintscolumnwidth}
-                                @{\hspace{\separatorcolumnwidth}}p{\cvskill@width}@{\hspace{2\skilllegend@padding}}%
-                                p{\cvskilllegend@leftdescriptorwidth}@{\hspace{2\skillmatrix@padding}}%
-                                p{\cvskill@width}@{\hspace{2\skilllegend@padding}}%
-                                p{\cvskilllegend@rightdescriptorwidth}@{}}%
-                    \raggedleft\hintstyle{}  & \cvskill{1} & {\skillLegend@FontSize #3} & \cvskill{3} & {\skillLegend@FontSize #5 } \\
-                                %
-                            & \cvskill{2} & \multirow{2}{\cvskilllegend@leftdescriptorwidth}{{\skillLegend@FontSize #4}} & \cvskill{4} &{\skillLegend@FontSize #6 } \\
-                        %
-                            & &   & \cvskill{5} & {\skillLegend@FontSize #7 }
-                \end{tabular}%
-            \endgroup%
-            \par\addvspace{#2}
-        }
-    }
-\fi
-% Redefinition of \cvskilllegend valid for bankingcvbodyv
-\if@bankingcvbodyv%
-    \DeclareDocumentCommand\@starIndependentTabular{}{}%
-    \RenewDocumentCommand\cvskilllegend{s +O{.25em} +O{\skillLegend@defaultLevelOne} +O{\skillLegend@defaultLevelTwo} +O{\skillLegend@defaultLevelThree} +O{\skillLegend@defaultLevelFour} +O{\skillLegend@defaultLevelFive} +m}{%
-        % check whether Argument #8 is given and if so provide it as cvitem
-        \def\arg@legendString{#8}%
-        \ifdefempty{\arg@legendString}{%
-            \vspace*{-\separatorrulewidth}% HACK; I don't understand where the space is coming from, nor what it's exact value is :(
-        }{%
-            \cvitem[-0.5em]{#8}{}%
-        }%
-        \arrayrulecolor{bodyrulecolor}%
-        \setlength\arrayrulewidth{\separatorrulewidth}%
-        \RenewDocumentCommand{\@starIndependentTabular}{}{%
-            \begingroup%
-            \setlength{\cvskilllegend@leftdescriptorwidth}{\skilllegend@leftdesriptorfactor\skilllegend@bodylength-\cvskill@width-\skillmatrix@padding-3\skilllegend@padding}%
-            \setlength{\cvskilllegend@rightdescriptorwidth}{\skilllegend@bodylength-\skilllegend@leftdesriptorfactor\skilllegend@bodylength-\cvskill@width-\skillmatrix@padding-3\skilllegend@padding}%
-%             \renewcommand{\arraystretch}{1.0}%
-            \begin{tabular}[t]{@{}p{\hintscolumnwidth}%\skilllegend@hintscolumnwidth
-                    @{\hspace{\separatorcolumnwidth}}|@{\hspace{\separatorcolumnwidth}}%
-                    p{\cvskill@width}@{\hspace{3\skilllegend@padding}}%
-                    p{\cvskilllegend@leftdescriptorwidth}@{\hspace{2\skillmatrix@padding}}%
-                    p{\cvskill@width}@{\hspace{3\skilllegend@padding}}%
-                    p{\cvskilllegend@rightdescriptorwidth}@{}}%
-                \@moderncvstrut{4pt}{16pt}  & \cvskill{1}& {\skillLegend@FontSize #3} & \cvskill{3}& {\skillLegend@FontSize #5 }\\%
-                            %
-                        & \cvskill{2}& \multirow{2}{\cvskilllegend@leftdescriptorwidth}{{\skillLegend@FontSize #4}} & \cvskill{4}& {\skillLegend@FontSize #6 }\\%
-                    %
-                        & & & \cvskill{5} & {\skillLegend@FontSize #7 }\\[#2]% the spacing needs to be inside the cell for the vertical rule to extend correctly
-            \end{tabular}%
-            \endgroup%
-            \par\@aftersectionfalse\ignorespaces%
-        }%
-        % because of this weird style and the position of the parameter [#2], the dashed lines of the other version look bad. So no lines.
-        \IfBooleanTF#1{%
-                \@starIndependentTabular%
-            }{%
-                \@starIndependentTabular%
-        }%
-    }%
-\fi
 
 % %-------------------------------------------------------------------------------
 % %                \cvskillplainlegend
@@ -773,7 +592,7 @@
 \NewDocumentCommand\skillPlainLegend@defaultLevelThree{}{extensive project experience}
 \NewDocumentCommand\skillPlainLegend@defaultLevelFour{}{deepened expert knowledge}
 \NewDocumentCommand\skillPlainLegend@defaultLevelFive{}{expert/guru}
-% Redefinition of \cvskillplainlegend valid for bankingcvbodyi, bankingcvbodyii, bankingcvbodyiii
+% Definition of \cvskillplainlegend for the banking style
 \RenewDocumentCommand\cvskillplainlegend{s +O{.25em} +O{\skillPlainLegend@defaultLevelOne} +O{\skillPlainLegend@defaultLevelTwo} +O{\skillPlainLegend@defaultLevelThree} +O{\skillPlainLegend@defaultLevelFour} +O{\skillPlainLegend@defaultLevelFive} +m}{%
     \IfBooleanTF#1{% if a star is given, add dashed line
         \begingroup%
@@ -817,93 +636,6 @@
         \par\addvspace{#2}%
     }%
 }%
-% Redefinition of \cvskillplainlegend valid for bankingcvbodyiv
-\if@bankingcvbodyiv%
-    \RenewDocumentCommand\cvskillplainlegend{s +O{.25em} +O{\skillPlainLegend@defaultLevelOne} +O{\skillPlainLegend@defaultLevelTwo} +O{\skillPlainLegend@defaultLevelThree} +O{\skillPlainLegend@defaultLevelFour} +O{\skillPlainLegend@defaultLevelFive} +m}{%
-        \def\arg@legendString{#8}%
-        \ifdefempty{\arg@legendString}{%
-        }{%
-            \cvitem[0.25em]{\hintstyle{#8}}{}%
-        }%
-        \IfBooleanTF#1{% if a star is given, add dashed line
-            \begingroup%
-                \arrayrulecolor{bodyrulecolor}
-                \setlength{\cvskilllegend@leftdescriptorwidth}{\skilllegend@leftdesriptorfactor\skilllegend@bodylength-\cvskill@width-\skillmatrix@padding-6\skilllegend@padding}%
-                \setlength{\cvskilllegend@rightdescriptorwidth}{\skilllegend@bodylength-\skilllegend@leftdesriptorfactor\skilllegend@bodylength-\cvskill@width-\skillmatrix@padding-6\skilllegend@padding}%
-                \begin{tabular}{@{}p{\skilllegend@hintscolumnwidth}
-                                @{\hspace{\separatorcolumnwidth}}p{\cvskill@width}@{\hspace{\skilllegend@padding}};{.6pt/1pt}%
-                                p{2\skilllegend@padding}%
-                                p{\cvskilllegend@leftdescriptorwidth}@{\hspace{2\skillmatrix@padding}}%
-                                p{\cvskill@width}@{\hspace{\skilllegend@padding}};{.6pt/1pt}%
-                                p{2\skilllegend@padding}p{\cvskilllegend@rightdescriptorwidth}@{}}%
-                    \raggedleft\hintstyle{} & \cvskill{1} & & {\skillLegend@FontSize#3} & \cvskill{4} & & {\skillLegend@FontSize#6}\\%
-                                %
-                            & \cvskill{2} & &{\skillLegend@FontSize#4} & \cvskill{5} &  &{\skillLegend@FontSize#7}\\%
-                        %
-                            & \cvskill{3} & &{\skillLegend@FontSize#5} & & &%
-                \end{tabular}%
-            \endgroup%
-            \par\addvspace{#2}}{
-            % if no star is given, do not add dashed line
-            \begingroup
-                \setlength{\cvskilllegend@leftdescriptorwidth}{\skilllegend@leftdesriptorfactor\skilllegend@bodylength-\cvskill@width-\skillmatrix@padding-3\skilllegend@padding}%
-                \setlength{\cvskilllegend@rightdescriptorwidth}{\skilllegend@bodylength-\skilllegend@leftdesriptorfactor\skilllegend@bodylength-\cvskill@width-\skillmatrix@padding-4\skilllegend@padding}%
-                \begin{tabular}{@{}p{\skilllegend@hintscolumnwidth}
-                                @{\hspace{\separatorcolumnwidth}}p{\cvskill@width}@{\hspace{\skilllegend@padding}}%
-                                p{\cvskilllegend@leftdescriptorwidth}@{\hspace{2\skillmatrix@padding}}%
-                                p{\cvskill@width}@{\hspace{\skilllegend@padding}}%
-                                p{\cvskilllegend@rightdescriptorwidth}@{}}%
-                    \raggedleft\hintstyle{}  & \cvskill{1} & {\skillLegend@FontSize #3} & \cvskill{4} & {\skillLegend@FontSize #6} \\
-                                %
-                            & \cvskill{2} & {\skillLegend@FontSize #4} & \cvskill{5} & {\skillLegend@FontSize #7} \\
-                        %
-                            & \cvskill{3} & {\skillLegend@FontSize #5}  & & %
-                \end{tabular}%
-            \endgroup
-            \par\addvspace{#2}
-        }
-    }
-\fi
-% Redefinition of \cvskillplainlegend valid for bankingcvbodyv
-\if@bankingcvbodyv%
-    \RenewDocumentCommand\cvskillplainlegend{s +O{.25em} +O{\skillPlainLegend@defaultLevelOne} +O{\skillPlainLegend@defaultLevelTwo} +O{\skillPlainLegend@defaultLevelThree} +O{\skillPlainLegend@defaultLevelFour} +O{\skillPlainLegend@defaultLevelFive} +m}{%
-        % check whether Argument #8 is given and if so provide it as cvitem
-        \def\arg@legendString{#8}%
-        \ifdefempty{\arg@legendString}{%
-            \vspace*{-\separatorrulewidth}% HACK; I don't understand where the space is coming from, nor what it's exact value is :(
-        }{%
-            \cvitem[-0.5em]{#8}{}%
-        }%
-        \arrayrulecolor{bodyrulecolor}%
-        \setlength\arrayrulewidth{\separatorrulewidth}%
-        \RenewDocumentCommand{\@starIndependentTabular}{}{%
-            \begingroup%
-%             \renewcommand{\arraystretch}{1.0}%
-            \setlength{\cvskilllegend@leftdescriptorwidth}{\skilllegend@leftdesriptorfactor\skilllegend@bodylength-\cvskill@width-\skillmatrix@padding-2\skilllegend@padding}%
-            \setlength{\cvskilllegend@rightdescriptorwidth}{\skilllegend@bodylength-\skilllegend@leftdesriptorfactor\skilllegend@bodylength-\cvskill@width-\skillmatrix@padding-2\skilllegend@padding}%
-            \begin{tabular}[t]{@{}p{\hintscolumnwidth}%\skilllegend@hintscolumnwidth
-                    @{\hspace{\separatorcolumnwidth}}|@{\hspace{\separatorcolumnwidth}}%
-                    p{\cvskill@width}@{\hspace{2\skilllegend@padding}}%
-                    p{\cvskilllegend@leftdescriptorwidth}@{\hspace{2\skillmatrix@padding}}%
-                    p{\cvskill@width}@{\hspace{2\skilllegend@padding}}%
-                    p{\cvskilllegend@rightdescriptorwidth}@{}}%
-                \@moderncvstrut{4pt}{16pt}  & \cvskill{1} & {\skillLegend@FontSize #3} & \cvskill{4} & {\skillLegend@FontSize #6}\\%
-                            %
-                        & \cvskill{2} & {\skillLegend@FontSize #4} & \cvskill{5} & {\skillLegend@FontSize #7}\\%
-                    %
-                        & \cvskill{3} & {\skillLegend@FontSize #5}  & & \\[#2]% the spacing needs to be inside the cell for the vertical rule to extend correctly
-            \end{tabular}%
-            \endgroup%
-            \par\@aftersectionfalse\ignorespaces%
-        }%
-        % because of this weird style and the position of the parameter [#2], the dashed lines of the other version look bad. So no lines.
-        \IfBooleanTF#1{%
-                \@starIndependentTabular%
-            }{%
-                \@starIndependentTabular%
-        }%
-    }%
-\fi
 
 % %-------------------------------------------------------------------------------
 % %                \cvskillhead
@@ -931,7 +663,7 @@
 \NewDocumentCommand\skillMatrix@HeaderDefaultTwo{}{Skill}
 \NewDocumentCommand\skillMatrix@HeaderDefaultThree{}{Years}
 \NewDocumentCommand\skillMatrix@HeaderDefaultFour{}{Comment}
-% Definition of \cvskillhead valid for bankingcvbodyi, bankingcvbodyii, bankingcvbodyiii, bankingcvbodyiv
+% Definition of \cvskillhead for the banking style
 \RenewDocumentCommand\cvskillhead{O{.25em} +O{\skillMatrix@HeaderDefaultOne} +O{\skillMatrix@HeaderDefaultTwo} +O{\skillMatrix@HeaderDefaultThree} +O{\skillMatrix@HeaderDefaultFour}}{%
     \begingroup
         \renewcommand{\arraystretch}{1.25}
@@ -946,28 +678,6 @@
     \endgroup
     \par\addvspace{#1}
 }
-% Definition of \cvskillhead valid bankingcvbodyv
-\if@bankingcvbodyv%
-    \RenewDocumentCommand\cvskillhead{O{.25em} +O{\skillMatrix@HeaderDefaultOne} +O{\skillMatrix@HeaderDefaultTwo} +O{\skillMatrix@HeaderDefaultThree} +O{\skillMatrix@HeaderDefaultFour}}{%
-        \arrayrulecolor{bodyrulecolor}%
-        \setlength\arrayrulewidth{\separatorrulewidth}%
-        \vspace*{-\separatorrulewidth}% HACK; I don't understand where the space is coming from, nor what it's exact value is :(
-        \begingroup%
-    %     \renewcommand{\arraystretch}{1.25}%
-        \begin{tabular}[t]{@{}p{\hintscolumnwidth}%
-                @{\hspace{\separatorcolumnwidth}}|@{\hspace{\separatorcolumnwidth}}%
-                p{\skillmatrix@hintscolumnwidth}%
-                @{\hspace{\skillmatrix@padding}}%
-                p{\cvskill@width}@{\hspace{\skillmatrix@padding}}%
-                p{\cvskill@descriptorwidth}@{\hspace{\skillmatrix@padding}}%
-                p{\cvskill@experiencewidth}@{\hspace{\skillmatrix@padding}}%
-                p{\skillmatrix@commentwidth}@{}}%
-            & & \centering{\cvSkillMatrix@HeadFont#2} & \centering{\cvSkillMatrix@HeadFont#3} & \centering{\cvSkillMatrix@HeadFont#4} & {\cvSkillMatrix@HeadFont#5} \\[#1]% the spacing needs to be inside the cell for the vertical rule to extend correctly
-        \end{tabular}%
-        \endgroup%
-        \par\@aftersectionfalse\ignorespaces%
-    }%
-\fi
 
 % %-------------------------------------------------------------------------------
 % %                \cvskillentry
@@ -995,7 +705,7 @@
 %     Note:
 %         - The width of the columns can be adjusted by the \setcvskillcolumns command, see \setcvskillcolumns.
 
-% Definition of \cvskillentry valid for bankingcvbodyi, bankingcvbodyii, bankingcvbodyiii, bankingcvbodyiv
+% Definition of \cvskillentry for the banking style
 \RenewDocumentCommand\cvskillentry{s +O{.25em} +m +m +m +m +m}{%
     %test for the star * in the command
     \IfBooleanTF{#1}{% If a star is seen a dotted line is drawn above the entry
@@ -1025,36 +735,6 @@
     }
 }
 
-% Definition of \cvskillentry valid for bankingcvbodyv
-\if@bankingcvbodyv%
-    \DeclareDocumentCommand\@starIndependentMatrixEntry{}{}%
-    \RenewDocumentCommand\cvskillentry{s O{.25em} +m +m +m +m +m}{%
-        \arrayrulecolor{bodyrulecolor}%
-        \setlength\arrayrulewidth{\separatorrulewidth}%
-        \vspace*{-\separatorrulewidth}% HACK; I don't understand where the space is coming from, nor what it's exact value is :(
-        %test for the star * in the command
-        \RenewDocumentCommand{\@starIndependentMatrixEntry}{}{%
-            \begingroup%
-                \renewcommand{\arraystretch}{1.25}%
-                \begin{tabular}[t]{@{}p{\hintscolumnwidth}%
-                                @{\hspace{\separatorcolumnwidth}}|@{\hspace{\separatorcolumnwidth}}p{\skillmatrix@hintscolumnwidth}
-                                @{\hspace{\skillmatrix@padding}}%
-                                p{\cvskill@width}@{\hspace{\skillmatrix@padding}}%
-                                p{\cvskill@descriptorwidth}@{\hspace{\skillmatrix@padding}}%
-                                p{\cvskill@experiencewidth} @{\hspace{\skillmatrix@padding}}p{\skillmatrix@commentwidth}@{}}%
-    %                 \cline{3-6}%
-                    & \raggedleft\hintstyle{#3} &\centering \cvskill{#4} &\centering {#5} & \centering {#6} &{\itshape#7}\\[#2]%
-                \end{tabular}%
-            \endgroup%
-        }%
-        \IfBooleanTF{#1}{% the star does not do anything here
-            \@starIndependentMatrixEntry%
-        }{%
-            \@starIndependentMatrixEntry%
-        }%
-        \par\@aftersectionfalse\ignorespaces%
-    }%
-\fi
 %
 \endinput
 

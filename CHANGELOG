@@ -1,7 +1,20 @@
-version next
-- Upgrade to Fontawesome 6 (#183)
-- Document how to set custom strings for social command (#239)
-- Correct documentation to reflect new order \moderncvcolor before \moderncvstyle (#256)
+bankingcv version 1.0.0 (20 Feb 2026)
+- New package: bankingcv is a simplified fork of moderncv v2.5.1, keeping only the
+  banking style. Renamed from moderncv to bankingcv per LPPL requirements.
+- Removed all styles except banking (casual, classic, contemporary, empty, fancy,
+  oldstyle) and their associated head/body/foot variant files.
+- Removed numbered head/body/foot variant suffixes (headiii, bodyiii, footi) since
+  only one variant remains; files are now bankingcvhead.sty, bankingcvbody.sty,
+  bankingcvfoot.sty.
+- Simplified internal package loading: bankingcvstylebanking.sty now directly uses
+  \RequirePackage instead of the numbered \moderncvhead/\moderncvbody/\moderncvfoot
+  commands; the \@loadmoderncvpackage helper has been removed from bankingcv.cls.
+- Simplified bankingcvskillmatrix.sty: removed all dead code for unused body
+  variants (i, ii, iv, v).
+- Fixed: duplicate \simplexsocialsymbol definition (second was meant for
+  \threemasocialsymbol).
+- Fixed: typo "Languagi" -> "Language" in skillmatrix column width calculation.
+- Version reset to 1.0.0 for this new package.
 
 version 2.5.1 (31 Jan 2026)
 - Fix french babel breaking contemporary style (#219)

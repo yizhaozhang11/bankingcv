@@ -1,6 +1,6 @@
-- moderncv is incompatible with biber.
-- moderncv is incompatible with BibLaTeX.
-- moderncv is incompatible with babel in Spanish.
+- bankingcv is incompatible with biber.
+- bankingcv is incompatible with BibLaTeX.
+- bankingcv is incompatible with babel in Spanish.
 
 - Skill matrices don't break automatically in fancy style.
 - Long names break the oldstyle style and possibly other styles (needs testing).

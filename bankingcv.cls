@@ -1,5 +1,6 @@
 %% start of file `bankingcv.cls'.
 %% Copyright 2006-2015 Xavier Danaux (xdanaux@gmail.com), 2020-2026 moderncv maintainers (github.com/moderncv).
+%% Copyright 2026 yizhaozhang11 (github.com/yizhaozhang11/bankingcv).
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License version 1.3c,
@@ -10,7 +11,7 @@
 %                identification
 %-------------------------------------------------------------------------------
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{bankingcv}[2026-01-31 v2.5.1 modern curriculum vitae and letter document class]
+\ProvidesClass{bankingcv}[2026-02-20 v1.0.0 banking curriculum vitae document class]
 
 
 %-------------------------------------------------------------------------------
@@ -416,30 +417,25 @@
 % usage: \makefooter
 \newcommand*{\makefooter}{}%
 
-\newcommand*{\@loadmoderncvpackage}[3][]{%
-  \begingroup\edef\x{\endgroup%
-    \noexpand\RequirePackage[#1]{bankingcv#2\ifcase#3\or i\or ii\or iii\or iv\or v\or vi\or vii\or viii\or ix\or x\fi}%
-  }\x}
-
-% loads a style variant (a combination of header, body and footer)
+% loads the style (a combination of header, body and footer)
 % usage: \moderncvstyle{<style variant name>}
 \newcommand*{\moderncvstyle}[2][]{%
   \RequirePackage[#1]{bankingcvstyle#2}}
 
-% loads a header variant
-% usage: \moderncvhead[<optional head option>]{<header variant number>}
+% loads the header
+% usage: \moderncvhead[<optional head option>]{}
 \newcommand*{\moderncvhead}[2][]{%
-  \@loadmoderncvpackage[#1]{head}{#2}}
+  \RequirePackage[#1]{bankingcvhead}}
 
-% loads a body variant
-% usage: \moderncvbody[<optional body option>]{<body variant number>}
+% loads the body
+% usage: \moderncvbody[<optional body option>]{}
 \newcommand*{\moderncvbody}[2][]{%
-  \@loadmoderncvpackage[#1]{body}{#2}}
+  \RequirePackage[#1]{bankingcvbody}}
 
-% loads a footer variant
-% usage: \moderncvfoot[<optional foot option>]{<foot variant number>}
+% loads the footer
+% usage: \moderncvfoot[<optional foot option>]{}
 \newcommand*{\moderncvfoot}[2][]{%
-  \@loadmoderncvpackage[#1]{foot}{#2}}
+  \RequirePackage[#1]{bankingcvfoot}}
 
 % loads a color scheme
 % usage: \moderncvcolor{<color scheme name>}
