@@ -71,6 +71,36 @@
 \DeclareOption{draft}{\setlength\overfullrule{5pt}}
 \DeclareOption{final}{\setlength\overfullrule{0pt}}
 
+% color options (set the color scheme loaded at \AtEndPreamble)
+\newcommand*{\@bankingcvcolorname}{blue}% default color
+\DeclareOption{black}    {\renewcommand*{\@bankingcvcolorname}{black}}
+\DeclareOption{blue}     {\renewcommand*{\@bankingcvcolorname}{blue}}
+\DeclareOption{burgundy} {\renewcommand*{\@bankingcvcolorname}{burgundy}}
+\DeclareOption{cerulean} {\renewcommand*{\@bankingcvcolorname}{cerulean}}
+\DeclareOption{green}    {\renewcommand*{\@bankingcvcolorname}{green}}
+\DeclareOption{grey}     {\renewcommand*{\@bankingcvcolorname}{grey}}
+\DeclareOption{orange}   {\renewcommand*{\@bankingcvcolorname}{orange}}
+\DeclareOption{purple}   {\renewcommand*{\@bankingcvcolorname}{purple}}
+\DeclareOption{red}      {\renewcommand*{\@bankingcvcolorname}{red}}
+
+% style options (accumulated and passed to bankingcvstylebanking at \AtEndPreamble)
+% rules: "fullrules", "shortrules", "mixedrules" (default) or "norules"
+% alignment: "left" (default), "center" or "right"
+% header details: "details" (default) or "nodetails"
+% icons: "symbols" (default) or "nosymbols"
+\newcommand*{\@bankingcvstyleoptions}{}
+\DeclareOption{fullrules} {\edef\@bankingcvstyleoptions{\@bankingcvstyleoptions,fullrules}}
+\DeclareOption{shortrules}{\edef\@bankingcvstyleoptions{\@bankingcvstyleoptions,shortrules}}
+\DeclareOption{mixedrules}{\edef\@bankingcvstyleoptions{\@bankingcvstyleoptions,mixedrules}}
+\DeclareOption{norules}   {\edef\@bankingcvstyleoptions{\@bankingcvstyleoptions,norules}}
+\DeclareOption{left}      {\edef\@bankingcvstyleoptions{\@bankingcvstyleoptions,left}}
+\DeclareOption{center}    {\edef\@bankingcvstyleoptions{\@bankingcvstyleoptions,center}}
+\DeclareOption{right}     {\edef\@bankingcvstyleoptions{\@bankingcvstyleoptions,right}}
+\DeclareOption{details}   {\edef\@bankingcvstyleoptions{\@bankingcvstyleoptions,details}}
+\DeclareOption{nodetails} {\edef\@bankingcvstyleoptions{\@bankingcvstyleoptions,nodetails}}
+\DeclareOption{symbols}   {\edef\@bankingcvstyleoptions{\@bankingcvstyleoptions,symbols}}
+\DeclareOption{nosymbols} {\edef\@bankingcvstyleoptions{\@bankingcvstyleoptions,nosymbols}}
+
 % execute default options
 \ExecuteOptions{a4paper,11pt,final}
 
@@ -137,6 +167,12 @@
 \ifpdftex
   \IfPDFManagementActiveTF{}{\RequirePackage[T1]{fontenc}}
 \fi
+
+% auto-load the color scheme and the (only) banking style at the end of the preamble,
+% using whatever color and options were chosen via class options or \bankingcvcolor.
+\AtEndPreamble{%
+  \RequirePackage{bankingcvcolor\@bankingcvcolorname}%
+  \RequirePackage[\@bankingcvstyleoptions]{bankingcvstylebanking}}
 
 % graphics
 \RequirePackage{graphicx}
@@ -429,34 +465,37 @@
 % usage: \makefooter
 \newcommand*{\makefooter}{}%
 
-% loads the style (a combination of header, body and footer)
-% usage: \moderncvstyle{<style variant name>}
-\newcommand*{\moderncvstyle}[2][]{%
-  \RequirePackage[#1]{bankingcvstyle#2}}
-
-% loads the header
-% usage: \moderncvhead[<optional head option>]{}
-\newcommand*{\moderncvhead}[2][]{%
-  \RequirePackage[#1]{bankingcvhead}}
-
-% loads the body
-% usage: \moderncvbody[<optional body option>]{}
-\newcommand*{\moderncvbody}[2][]{%
-  \RequirePackage[#1]{bankingcvbody}}
-
-% loads the footer
-% usage: \moderncvfoot[<optional foot option>]{}
-\newcommand*{\moderncvfoot}[2][]{%
-  \RequirePackage[#1]{bankingcvfoot}}
-
-% loads a color scheme
-% usage: \moderncvcolor{<color scheme name>}
-\newcommand*{\moderncvcolor}[1]{%
+% sets the color scheme (loads bankingcvcolor<name> immediately and records it for
+% the \AtEndPreamble auto-load; overrides any color class option)
+% usage: \bankingcvcolor{<color name>}
+\newcommand*{\bankingcvcolor}[1]{%
+  \renewcommand*{\@bankingcvcolorname}{#1}%
   \RequirePackage{bankingcvcolor#1}}
 
+% appends options to the style options accumulator (overrides class options if called
+% after \documentclass; the style itself is auto-loaded at \AtEndPreamble)
+% usage: \bankingcvsetoptions{<option1>, <option2>, ...}
+\newcommand*{\bankingcvsetoptions}[1]{%
+  \edef\@bankingcvstyleoptions{\@bankingcvstyleoptions,#1}}
+
+% loads the header (provided for advanced use; normally auto-loaded by the class)
+% usage: \bankingcvhead[<optional head option>]{}
+\newcommand*{\bankingcvhead}[2][]{%
+  \RequirePackage[#1]{bankingcvhead}}
+
+% loads the body (provided for advanced use; normally auto-loaded by the class)
+% usage: \bankingcvbody[<optional body option>]{}
+\newcommand*{\bankingcvbody}[2][]{%
+  \RequirePackage[#1]{bankingcvbody}}
+
+% loads the footer (provided for advanced use; normally auto-loaded by the class)
+% usage: \bankingcvfoot[<optional foot option>]{}
+\newcommand*{\bankingcvfoot}[2][]{%
+  \RequirePackage[#1]{bankingcvfoot}}
+
 % loads an icons set
-% usage: \moderncvicons{<icon set name>}
-\newcommand*{\moderncvicons}[1]{%
+% usage: \bankingcvicons{<icon set name>}
+\newcommand*{\bankingcvicons}[1]{%
   \RequirePackage{bankingcvicons#1}}
 
 % recomputes all automatic lengths
@@ -495,7 +534,7 @@
   }
 
 % custom strut for spacing; the first argument is the vertical offset of the strut, the second its total height
-\newcommand*{\@moderncvstrut}[2]{%
+\newcommand*{\@bankingcvstrut}[2]{%
   \rule[-#1]{0pt}{#2}}
 
 

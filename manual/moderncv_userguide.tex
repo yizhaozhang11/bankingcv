@@ -96,7 +96,7 @@
   belowcaptionskip=0.75\baselineskip,
   % frame=L,
   emph={
-    cvitem, cventry, cvdoubleentry, cvdoubleitem, cvtripleitem, cvlistitem, cvlistdoubleitem, cvcolumns, moderncvstyle, moderncvcolor,
+    cvitem, cventry, cvdoubleentry, cvdoubleitem, cvtripleitem, cvlistitem, cvlistdoubleitem, cvcolumns, bankingcvsetoptions, bankingcvcolor,
     cvskill, cvskilllegend, cvskillplainlegend, cvskillhead, cvskillentry, nopagenumbers,
     name, born, address, email, link, social, phone, homepage, extrainfo, photo, quote, section, subsection, setlength, NewDocumentCommand, definecolor, colorlet, cvitemwithcomment,
     recipient, subject, opening, closing, signature, enclosure
@@ -243,8 +243,8 @@ where at most one value for each option can be passed to the document class:
 \subsubsection*{Choosing a \texttt{moderncv} style and color}
 Choose a \Moderncv style and color by adjusting the commands (command order is important!):
 \begin{lstlisting}
-  \moderncvcolor{<color>}
-  \moderncvstyle{<style>}
+  \bankingcvcolor{<color>}
+  \bankingcvsetoptions{}
 \end{lstlisting}
 As explained in \cvtemplate, the possible values are
 
@@ -616,9 +616,9 @@ A command to list the attached documents. The first optional parameter allows a 
 \label{section:customization}
 \subsection{Styles and their options}
 \label{section:customization:stylesAndOptions}
-Each style allows fine-tuning via options passed into the \code{\\moderncvstyle} command:
+Each style allows fine-tuning via options passed into the \code{\\bankingcvsetoptions} command:
 \begin{lstlisting}
-  \moderncvstyle[<option 1>, <option 2>, ...]{<style>}
+  \bankingcvsetoptions{<option 1>, <option 2>, ...}
 \end{lstlisting}
 Each style defines its own options, and not all options are available for each style.
 Below is a list of all the options available for each style:
@@ -687,7 +687,7 @@ This style allows the following options:
 
 \note Only one option from each option category can be passed in at a time, e.g.
 \begin{lstlisting}
-  \moderncvstyle[left, nosymbols]{casual}
+  \bankingcvsetoptions{left, nosymbols}
 \end{lstlisting}
 
 \paragraph{\code{contemporary}}
@@ -701,7 +701,7 @@ This style allows the following options which \emph{only} affect header and foot
   \textbf{\code{qr}}      & values: \code{qr} (default), \code{noqr}.
   Enables or disables the inclusion of a QR code of your personal website.
 \end{tabular}
-\note For the \code{contemporary} style it is recommended to use the \code{\\moderncvcolor\{cerulean\}} color scheme. The \code{contemporary} style is even more appealing with reduced margins. Use this in your preamble:
+\note For the \code{contemporary} style it is recommended to use the \code{\\bankingcvcolor\{cerulean\}} color scheme. The \code{contemporary} style is even more appealing with reduced margins. Use this in your preamble:
 \begin{lstlisting}
   \usepackage[hmargin=0.5in,vmargin=10pt]{geometry}
 \end{lstlisting}
@@ -709,10 +709,10 @@ This style allows the following options which \emph{only} affect header and foot
 \subsection{Adjusting colors}
 The colors of each style can be adjusted.
 
-\note The color theme must be loaded \emph{before} \code{\\moderncvstyle}, i.e.
+\note The color theme must be loaded \emph{before} \code{\\bankingcvsetoptions}, i.e.
 \begin{lstlisting}
-  \moderncvcolor{blue}
-  \moderncvstyle{casual}
+  \bankingcvcolor{blue}
+  \bankingcvsetoptions{}
 \end{lstlisting}
 
 \paragraph{Base colors.}
@@ -754,7 +754,7 @@ If an even finer control over the color scheme of the style is desired, the foll
 
 \subsection{Modifying symbols and icons}
 \subsubsection{Icons}\label{icon:usage}
-As stated in section \ref{section:customization:stylesAndOptions}, the use of icons is toggled by the \code{symbols} option that can be passed to \code{\\moderncvstyle}.
+As stated in section \ref{section:customization:stylesAndOptions}, the use of icons is toggled by the \code{symbols} option that can be passed to \code{\\bankingcvsetoptions}.
 
 Currently \Moderncv supports the following commands as \code{<\\symbolcommand>}:
 \begin{itemize}
@@ -835,11 +835,11 @@ If one wanted to use the dingbat fonts to replace the default phone symbol, one 
 \end{lstlisting}
 
 \paragraph{Alternative to icons.}
-In case you do not want \texttt{symbols} (default) for the icons, there is also the option to replace icons with \texttt{letters} instead. This is set by the macro \code{\\moderncvicons}, which must be called after setting the style in the preamble.
+In case you do not want \texttt{symbols} (default) for the icons, there is also the option to replace icons with \texttt{letters} instead. This is set by the macro \code{\\bankingcvicons}, which must be called after setting the style in the preamble.
 \begin{lstlisting}
-  \moderncvicons{<symbols|letters>}
+  \bankingcvicons{<symbols|letters>}
 \end{lstlisting}
-This mechanism is also used to determine the icon set. In principle the \code{\\moderncvicons} can be used to determine the icon set with the possible values \texttt{marvosym}, \texttt{awesome} or \texttt{academic}, but it is recommended to let {\moderncv} decide the correct icon set due to differing \Latex compiler support.
+This mechanism is also used to determine the icon set. In principle the \code{\\bankingcvicons} can be used to determine the icon set with the possible values \texttt{marvosym}, \texttt{awesome} or \texttt{academic}, but it is recommended to let {\moderncv} decide the correct icon set due to differing \Latex compiler support.
 
 \subsubsection{Listing labels}
 The labels used in \code{itemize} environments, \code{cvlistitem} and \code{cvlistdoubleitem} can be changed in two different ways:
@@ -1023,21 +1023,19 @@ To add such a disclaimer, add the following to the bottom of your CV:%
 \section{Implementation details}
 \label{section:implementationDetails}
 
-\subsection{Creating your own styles}
-Currently {\moderncv} ships with six different styles: \texttt{casual} (default), \texttt{classic}, \texttt{banking}, \texttt{oldstyle}, \texttt{fancy} and \texttt{contemporary}. Internally, these styles are numbered 1, 2, 3, 4, 5 and 6, respectively. All styles except \texttt{oldstyle} and \texttt{fancy} possess additional option parameters which were described in section \ref{section:customization:stylesAndOptions}.
+\subsection{Style configuration}
+\label{section:implementationDetails:styleConfiguration}
+Unlike \moderncv, {\bankingcv} has exactly one built-in style. Style options are set directly as class options or via \code{\\bankingcvsetoptions}:
 
-Different styles' head, body and foot can be combined to create custom styles. This is done by setting \code{\\moderncvhead}, \code{\\moderncvbody} and \code{\\moderncvfoot} in the preamble. Here is an example of a custom style with a \texttt{banking} head, an \texttt{oldstyle} body and a \texttt{casual} foot:
 \begin{lstlisting}
-  \moderncvhead{3}
-  \moderncvbody{4}
-  \moderncvfoot{1}
+  % all options in documentclass (recommended):
+  \documentclass[11pt,a4paper,sans,blue,fullrules,left]{bankingcv}
+
+  % or via preamble commands:
+  \bankingcvcolor{blue}
+  \bankingcvsetoptions{fullrules, left}
 \end{lstlisting}
-Furthermore, options for each part of {\moderncv} parts can be set as well in such combinations. To get a CV with a \texttt{classic} head and a \texttt{banking} body with full rules, define the following in the preamble:
-\begin{lstlisting}
-  \moderncvhead{2}
-  \moderncvbody[fullrules]{3}
-  \moderncvfoot{1}
-\end{lstlisting}
+\noindent The \code{\\bankingcvhead}, \code{\\bankingcvbody} and \code{\\bankingcvfoot} commands are provided for advanced use (e.g., passing custom option sets), but are normally not needed as the class auto-loads all three.
 
 
 \subsection{Required packages}

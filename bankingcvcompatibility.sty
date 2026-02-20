@@ -82,8 +82,16 @@
 \newcommand*{\cvlanguage}[3]{\cvitemwithcomment{#1}{#2}{#3}}
 \newcommand*{\cvcomputer}[4]{\cvdoubleitem{#1}{\small#2}{#3}{\small#4}}
 \newcommand*{\moderncvtheme}[2][blue]{%
-  \moderncvcolor{#1}%
-  \moderncvstyle{#2}}
+  \bankingcvcolor{#1}%
+  \bankingcvsetoptions{}}% style name argument is ignored; only the banking style exists
+
+% compatibility with older moderncv command names
+\newcommand*{\moderncvcolor}[1]{\bankingcvcolor{#1}}
+\newcommand*{\moderncvstyle}[2][]{\bankingcvsetoptions{#1}}% style name (#2) is ignored
+\newcommand*{\moderncvicons}[1]{\bankingcvicons{#1}}
+\newcommand*{\moderncvhead}[2][]{\bankingcvhead[#1]{}}
+\newcommand*{\moderncvbody}[2][]{\bankingcvbody[#1]{}}
+\newcommand*{\moderncvfoot}[2][]{\bankingcvfoot[#1]{}}
 
 % compatibility with versions <= 0.19
 \newcommand*{\maketitle}{\makecvtitle}%

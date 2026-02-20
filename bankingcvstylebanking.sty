@@ -24,22 +24,22 @@
 \ProvidesPackage{bankingcvstylebanking}[2026-02-20 v1.0.0 banking-style curriculum vitae style]
 
 % body rules type options: "fullrules", "shortrules", "mixedrules" (default) or "norules"
-\@initializecommand{\moderncvstylebodyoptions}{}
-\DeclareOption{fullrules}    {\edef\moderncvstylebodyoptions{\moderncvstylebodyoptions,fullrules}}
-\DeclareOption{shortrules}   {\edef\moderncvstylebodyoptions{\moderncvstylebodyoptions,shortrules}}
-\DeclareOption{mixedrules}   {\edef\moderncvstylebodyoptions{\moderncvstylebodyoptions,mixedrules}}
-\DeclareOption{norules}      {\edef\moderncvstylebodyoptions{\moderncvstylebodyoptions,norules}}
+\@initializecommand{\bankingcvbodyoptions}{}
+\DeclareOption{fullrules}    {\edef\bankingcvbodyoptions{\bankingcvbodyoptions,fullrules}}
+\DeclareOption{shortrules}   {\edef\bankingcvbodyoptions{\bankingcvbodyoptions,shortrules}}
+\DeclareOption{mixedrules}   {\edef\bankingcvbodyoptions{\bankingcvbodyoptions,mixedrules}}
+\DeclareOption{norules}      {\edef\bankingcvbodyoptions{\bankingcvbodyoptions,norules}}
 
 % body section alignment options: "left" (default), "center" or "right"
-\DeclareOption{left}         {\edef\moderncvstylebodyoptions{\moderncvstylebodyoptions,left}}
-\DeclareOption{center}       {\edef\moderncvstylebodyoptions{\moderncvstylebodyoptions,center}}
-\DeclareOption{right}        {\edef\moderncvstylebodyoptions{\moderncvstylebodyoptions,right}}
+\DeclareOption{left}         {\edef\bankingcvbodyoptions{\bankingcvbodyoptions,left}}
+\DeclareOption{center}       {\edef\bankingcvbodyoptions{\bankingcvbodyoptions,center}}
+\DeclareOption{right}        {\edef\bankingcvbodyoptions{\bankingcvbodyoptions,right}}
 
 % head options
-\@initializecommand{\moderncvstyleheadoptions}{}
+\@initializecommand{\bankingcvheadoptions}{}
 \@initializeif{\if@datainhead}\@datainheadtrue
-\DeclareOption{details}{\edef\moderncvstyleheadoptions{\moderncvstyleheadoptions,details}}
-\DeclareOption{nodetails}{\@datainheadfalse\edef\moderncvstyleheadoptions{\moderncvstyleheadoptions,nodetails}}
+\DeclareOption{details}{\edef\bankingcvheadoptions{\bankingcvheadoptions,details}}
+\DeclareOption{nodetails}{\@datainheadfalse\edef\bankingcvheadoptions{\bankingcvheadoptions,nodetails}}
 
 % toggle use of symbol fonts.
 \@initializeif{\if@symbols}\@symbolsfalse
@@ -72,9 +72,9 @@
 
 % symbols
 \if@symbols
-    \moderncvicons{symbols}     % use symbols
+    \bankingcvicons{symbols}     % use symbols
 \else
-    \moderncvicons{letters}     % do not use symbols, use letters
+    \bankingcvicons{letters}     % do not use symbols, use letters
 \fi
 
 %-------------------------------------------------------------------------------
@@ -103,8 +103,8 @@
 %-------------------------------------------------------------------------------
 %                header, body & footer
 %-------------------------------------------------------------------------------
-\RequirePackage[\moderncvstyleheadoptions]{bankingcvhead}
-\RequirePackage[\moderncvstylebodyoptions]{bankingcvbody}
+\RequirePackage[\bankingcvheadoptions]{bankingcvhead}
+\RequirePackage[\bankingcvbodyoptions]{bankingcvbody}
 
 \if@datainhead
 % if data is shown in head, do not include the footer
