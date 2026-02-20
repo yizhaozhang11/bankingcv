@@ -1,0 +1,57 @@
+% MANIFEST for the bankingcv package (v1.0.0)
+%
+% bankingcv is a derived work of the moderncv package
+% (https://ctan.org/pkg/moderncv), distributed under the
+% LaTeX Project Public License version 1.3c.
+%
+% This work consists of the following files:
+
+% -- License and documentation --
+LICENSE.txt
+README.md
+CHANGELOG
+KNOWN_BUGS
+MANIFEST                         (this file)
+
+% -- Document class --
+bankingcv.cls
+
+% -- Style --
+bankingcvstylebanking.sty
+
+% -- Head / body / foot --
+bankingcvhead.sty
+bankingcvbody.sty
+bankingcvfoot.sty
+
+% -- Colors --
+bankingcvcolors.sty
+bankingcvcolorblack.sty
+bankingcvcolorblue.sty
+bankingcvcolorburgundy.sty
+bankingcvcolorcerulean.sty
+bankingcvcolorgreen.sty
+bankingcvcolorgrey.sty
+bankingcvcolororange.sty
+bankingcvcolorpurple.sty
+bankingcvcolorred.sty
+
+% -- Icons --
+bankingcviconssymbols.sty
+bankingcviconsawesome.sty
+bankingcviconsacademic.sty
+bankingcviconsmarvosym.sty
+bankingcviconsletters.sty
+bankingcviconstikz.sty
+
+% -- Utilities --
+bankingcvcollection.sty
+bankingcvcompatibility.sty
+bankingcvdebugtools.sty
+bankingcvskillmatrix.sty
+tweaklist.sty
+
+% -- Template and user guide --
+template.tex
+manual/moderncv_userguide.tex
+manual/moderncv_userguide.pdf
