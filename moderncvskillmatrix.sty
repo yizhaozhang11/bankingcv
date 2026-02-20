@@ -209,7 +209,7 @@
 % body type options: "moderncvbodyi" (default), "moderncvbodyii", "moderncvbodyiii", "moderncvbodyiv" or "moderncvbodyv"
 \@initializeif{\if@moderncvbodyi}\@moderncvbodyifalse
 \DeclareOption{moderncvbodyi}{\@moderncvbodyitrue\@moderncvbodyiifalse\@moderncvbodyiiifalse\@moderncvbodyivfalse\@moderncvbodyvfalse}
-\@initializeif{\if@moderncvbodyii}\@moderncvbodyiifalse % this option is added in case moderncvbodyii gets implemented standalone
+\@initializeif{\if@moderncvbodyii}\@moderncvbodyiifalse
 \DeclareOption{moderncvbodyii}{\@moderncvbodyifalse\@moderncvbodyiitrue\@moderncvbodyiiifalse\@moderncvbodyivfalse\@moderncvbodyvfalse}
 \@initializeif{\if@moderncvbodyiii}\@moderncvbodyiiifalse
 \DeclareOption{moderncvbodyiii}{\@moderncvbodyifalse\@moderncvbodyiifalse\@moderncvbodyiiitrue\@moderncvbodyivfalse\@moderncvbodyvfalse}
@@ -311,8 +311,26 @@
 %   Example usage (only internally in moderncvbody<i-v>.sty)
 %       \recompute@cvskillmatrix@lengths
 
-% Definition of \recompute@cvskillmatrix@lengths for moderncvbodyi
+% Definition of \recompute@cvskillmatrix@lengths for moderncvbodyi and moderncvbodyii
 \if@moderncvbodyi%
+    \RenewDocumentCommand{\recompute@cvskillmatrix@lengths}{}{%
+        \setlength{\skillmatrix@padding}{1ex}%
+        \setlength{\skillmatrix@hintscolumnwidth}{\hintscolumnwidth}%
+        \setlength{\cvskill@width}{\widthof{\cvskill{5}}}%
+        \setlength{\cvskill@experiencewidth}{\widthof{``Year''}}%
+        \setlength{\skillmatrix@bodylength}{\maincolumnwidth}%
+        \setlength{\skillmatrix@columnwidth}{0.45\skillmatrix@bodylength}%
+        \setlength{\cvskill@descriptorwidth}{\skillmatrix@columnwidth-\cvskill@width-\cvskill@experiencewidth}%
+        \setlength{\skillmatrix@commentwidth}{\skillmatrix@bodylength-\skillmatrix@columnwidth-3\skillmatrix@padding}%
+        % lengths and definitions needed for the legends
+        % note that \skillmatrix@padding also affects the appearance of legends
+        \setlength{\skilllegend@padding}{0.25ex}%
+        \setlength{\skilllegend@hintscolumnwidth}{\hintscolumnwidth}%
+        \setlength{\skilllegend@bodylength}{\skillmatrix@bodylength}%
+        \RenewDocumentCommand{\skilllegend@leftdesriptorfactor}{}{0.5}%
+    }
+\fi
+\if@moderncvbodyii%
     \RenewDocumentCommand{\recompute@cvskillmatrix@lengths}{}{%
         \setlength{\skillmatrix@padding}{1ex}%
         \setlength{\skillmatrix@hintscolumnwidth}{\hintscolumnwidth}%
@@ -548,6 +566,9 @@
         % or \setcvskilllegendcolumns[<width>][<somefactor>]
         \setlength{\skilllegend@hintscolumnwidth}{\arg@new@legend@hintscolumnwidth}%
         \if@moderncvbodyi%
+            \setlength{\skilllegend@bodylength}{\textwidth-\skilllegend@hintscolumnwidth-\separatorcolumnwidth}%
+        \fi%
+        \if@moderncvbodyii%
             \setlength{\skilllegend@bodylength}{\textwidth-\skilllegend@hintscolumnwidth-\separatorcolumnwidth}%
         \fi%
         \if@moderncvbodyiii%
