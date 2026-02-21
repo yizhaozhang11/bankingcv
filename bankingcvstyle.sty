@@ -1,4 +1,4 @@
-%% start of file `bankingcvstylebanking.sty'.
+%% start of file `bankingcvstyle.sty'.
 %% Copyright 2006-2015 Xavier Danaux (xdanaux@gmail.com), 2020-2026 moderncv maintainers (github.com/moderncv).
 %% Copyright 2026 yizhaozhang11 (github.com/yizhaozhang11/bankingcv).
 %
@@ -21,7 +21,7 @@
 %                identification
 %-------------------------------------------------------------------------------
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{bankingcvstylebanking}[2026-02-20 v1.0.0 banking-style curriculum vitae style]
+\ProvidesPackage{bankingcvstyle}[2026-02-20 v1.0.0 banking-style curriculum vitae style]
 
 % body rules type options: "fullrules", "shortrules", "mixedrules" (default) or "norules"
 \@initializecommand{\bankingcvbodyoptions}{}
@@ -63,11 +63,11 @@
 %  \setmathfont[range=\mathbfup,\mathbfsfup]{Tex-Gyre Pagella Bold}
 %  \setmathfont[range=\mathbfit,\mathbfsfit]{Tex-Gyre Pagella Bold Italic}
 %\else
-  \IfFileExists{tgpagella.sty}%
-    {%
-      \RequirePackage{tgpagella}%
-      \renewcommand*{\familydefault}{\rmdefault}}%
-    {}
+\IfFileExists{tgpagella.sty}%
+{%
+    \RequirePackage{tgpagella}%
+    \renewcommand*{\familydefault}{\rmdefault}}%
+{}
 %\fi
 
 % symbols
@@ -107,12 +107,12 @@
 \RequirePackage[\bankingcvbodyoptions]{bankingcvbody}
 
 \if@datainhead
-% if data is shown in head, do not include the footer
+    % if data is shown in head, do not include the footer
 \else
-  \RequirePackage{bankingcvfoot}
+    \RequirePackage{bankingcvfoot}
 \fi
 
 \endinput
 
 
-%% end of file `bankingcvstylebanking.sty'.
+%% end of file `bankingcvstyle.sty'.

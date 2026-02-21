@@ -40,24 +40,24 @@
 \pgfsetlayers{background,main}
 
 \DeclareDocumentCommand{\tracedebugvrule}{oO{0pt}}{%
-  \stepcounter{debugrule}%
-  \begin{tikzpicture}[remember picture,overlay]
-    \begin{pgfonlayer}{background}
-      \coordinate (a\thedebugrule);
-      \draw[red,thin,#1]
-        ([xshift=#2]a\thedebugrule|-current page.north) -- ([xshift=#2]a\thedebugrule|-current page.south);
-    \end{pgfonlayer}
-  \end{tikzpicture}}
+    \stepcounter{debugrule}%
+    \begin{tikzpicture}[remember picture,overlay]
+        \begin{pgfonlayer}{background}
+            \coordinate (a\thedebugrule);
+            \draw[red,thin,#1]
+            ([xshift=#2]a\thedebugrule|-current page.north) -- ([xshift=#2]a\thedebugrule|-current page.south);
+        \end{pgfonlayer}
+    \end{tikzpicture}}
 
 \DeclareDocumentCommand{\tracedebughrule}{oO{0pt}}{%
-  \stepcounter{debugrule}%
-  \begin{tikzpicture}[remember picture,overlay]
-    \begin{pgfonlayer}{background}
-    \coordinate (b\thedebugrule);
-      \draw[red,thin,#1]
-       ([yshift=#2]b\thedebugrule-|current page.west) -- ([yshift=#2]b\thedebugrule-|current page.east);
-    \end{pgfonlayer}
-  \end{tikzpicture}}
+    \stepcounter{debugrule}%
+    \begin{tikzpicture}[remember picture,overlay]
+        \begin{pgfonlayer}{background}
+            \coordinate (b\thedebugrule);
+            \draw[red,thin,#1]
+            ([yshift=#2]b\thedebugrule-|current page.west) -- ([yshift=#2]b\thedebugrule-|current page.east);
+        \end{pgfonlayer}
+    \end{tikzpicture}}
 
 
 \endinput

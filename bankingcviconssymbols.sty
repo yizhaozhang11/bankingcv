@@ -25,15 +25,15 @@
 
 
 \ifxetexorluatex
-  \RequirePackage{bankingcviconsawesome}
-  \RequirePackage{bankingcviconsacademic}
-\else
-  \typeout{^^Jbankingcv: academicons requires XeTeX/LuaTeX to work. Using alternatives.^^J}
-  \ifpdftex
     \RequirePackage{bankingcviconsawesome}
-  \else
-    \RequirePackage{bankingcviconsmarvosym}
-  \fi
+    \RequirePackage{bankingcviconsacademic}
+\else
+    \typeout{^^Jbankingcv: academicons requires XeTeX/LuaTeX to work. Using alternatives.^^J}
+    \ifpdftex
+        \RequirePackage{bankingcviconsawesome}
+    \else
+        \RequirePackage{bankingcviconsmarvosym}
+    \fi
 \fi
 
 % Define symbols that are not defined at this level

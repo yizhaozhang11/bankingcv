@@ -17,7 +17,7 @@ MANIFEST                         (this file)
 bankingcv.cls
 
 % -- Style --
-bankingcvstylebanking.sty
+bankingcvstyle.sty
 
 % -- Head / body / foot --
 bankingcvhead.sty

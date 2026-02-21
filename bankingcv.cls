@@ -83,7 +83,7 @@
 \DeclareOption{purple}   {\renewcommand*{\@bankingcvcolorname}{purple}}
 \DeclareOption{red}      {\renewcommand*{\@bankingcvcolorname}{red}}
 
-% style options (accumulated and passed to bankingcvstylebanking at \AtEndPreamble)
+% style options (accumulated and passed to bankingcvstyle at \AtEndPreamble)
 % rules: "fullrules", "shortrules", "mixedrules" (default) or "norules"
 % alignment: "left" (default), "center" or "right"
 % header details: "details" (default) or "nodetails"
@@ -172,7 +172,7 @@
 % using whatever color and options were chosen via class options or \bankingcvcolor.
 \AtEndPreamble{%
   \RequirePackage{bankingcvcolor\@bankingcvcolorname}%
-  \RequirePackage[\@bankingcvstyleoptions]{bankingcvstylebanking}}
+  \RequirePackage[\@bankingcvstyleoptions]{bankingcvstyle}}
 
 % graphics
 \RequirePackage{graphicx}

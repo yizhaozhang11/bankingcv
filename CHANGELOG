@@ -6,7 +6,7 @@ bankingcv version 1.0.0 (20 Feb 2026)
 - Removed numbered head/body/foot variant suffixes (headiii, bodyiii, footi) since
   only one variant remains; files are now bankingcvhead.sty, bankingcvbody.sty,
   bankingcvfoot.sty.
-- Simplified internal package loading: bankingcvstylebanking.sty now directly uses
+- Simplified internal package loading: bankingcvstyle.sty now directly uses
   \RequirePackage instead of the numbered \moderncvhead/\moderncvbody/\moderncvfoot
   commands; the \@loadmoderncvpackage helper has been removed from bankingcv.cls.
 - Simplified bankingcvskillmatrix.sty: removed all dead code for unused body
