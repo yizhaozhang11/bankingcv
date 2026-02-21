@@ -25,6 +25,17 @@ In your document preamble, use:
 
 If you are using the [`academicons`](https://ctan.org/tex-archive/fonts/academicons) package in the template, you will need to use a Xe(La)TeX or Lua(La)TeX engine to render the icons. Otherwise, an alternative icon package will be used automatically.
 
+### Typst
+A Typst translation is available as:
+
+- `bankingcv.typ`: reusable Typst functions mirroring the main `bankingcv` CV and letter primitives
+- `template.typ`: a Typst sample document translated from `template.tex`
+
+Compile with:
+```
+typst compile ./template.typ
+```
+
 ## Licence
 
 `bankingcv` is licensed under the [LPPL-1.3c](https://spdx.org/licenses/LPPL-1.3c.html).
