@@ -1,0 +1,118 @@
+%% start of file `bankingcvstylebanking.sty'.
+%% Copyright 2006-2015 Xavier Danaux (xdanaux@gmail.com), 2020-2026 moderncv maintainers (github.com/moderncv).
+%% Copyright 2026 yizhaozhang11 (github.com/yizhaozhang11/bankingcv).
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License version 1.3c,
+% available at http://www.latex-project.org/lppl/.
+%
+% This work has the LPPL maintenance status 'maintained'.
+%
+% The Current Maintainer of this work is yizhaozhang11
+% (github.com/yizhaozhang11/bankingcv).
+%
+% This file is a modified derivative of the corresponding file from the
+% moderncv package (https://ctan.org/pkg/moderncv). A complete and accurate
+% log of changes from the original is contained in the file CHANGELOG
+% distributed as part of this work.
+
+
+%-------------------------------------------------------------------------------
+%                identification
+%-------------------------------------------------------------------------------
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{bankingcvstylebanking}[2026-02-20 v1.0.0 banking-style curriculum vitae style]
+
+% body rules type options: "fullrules", "shortrules", "mixedrules" (default) or "norules"
+\@initializecommand{\bankingcvbodyoptions}{}
+\DeclareOption{fullrules}    {\edef\bankingcvbodyoptions{\bankingcvbodyoptions,fullrules}}
+\DeclareOption{shortrules}   {\edef\bankingcvbodyoptions{\bankingcvbodyoptions,shortrules}}
+\DeclareOption{mixedrules}   {\edef\bankingcvbodyoptions{\bankingcvbodyoptions,mixedrules}}
+\DeclareOption{norules}      {\edef\bankingcvbodyoptions{\bankingcvbodyoptions,norules}}
+
+% body section alignment options: "left" (default), "center" or "right"
+\DeclareOption{left}         {\edef\bankingcvbodyoptions{\bankingcvbodyoptions,left}}
+\DeclareOption{center}       {\edef\bankingcvbodyoptions{\bankingcvbodyoptions,center}}
+\DeclareOption{right}        {\edef\bankingcvbodyoptions{\bankingcvbodyoptions,right}}
+
+% head options
+\@initializecommand{\bankingcvheadoptions}{}
+\@initializeif{\if@datainhead}\@datainheadtrue
+\DeclareOption{details}{\edef\bankingcvheadoptions{\bankingcvheadoptions,details}}
+\DeclareOption{nodetails}{\@datainheadfalse\edef\bankingcvheadoptions{\bankingcvheadoptions,nodetails}}
+
+% toggle use of symbol fonts.
+\@initializeif{\if@symbols}\@symbolsfalse
+\DeclareOption{symbols}      {\@symbolstrue}
+\DeclareOption{nosymbols}    {\@symbolsfalse}
+
+\DeclareOption*{}% avoid choking on unknown options
+\ExecuteOptions{mixedrules,left,symbols}
+\ProcessOptions*\relax% \ProcessOptions* processes the options in the order provided (i.e., with the later ones possibly overriding the former ones), while \ProcessOptions processes them in the order of the package
+
+
+%-------------------------------------------------------------------------------
+%                fonts & icons
+%-------------------------------------------------------------------------------
+% TeX Gyre Pagella font
+%\ifxetexorluatex
+%  \setmainfont{Tex-Gyre Pagella}
+%  \setsansfont{Tex-Gyre Pagella}
+%  \setmathfont{Tex-Gyre Pagella}
+%  \setmathfont[range=\mathit,\mathsfit]{Tex-Gyre Pagella Italic}
+%  \setmathfont[range=\mathbfup,\mathbfsfup]{Tex-Gyre Pagella Bold}
+%  \setmathfont[range=\mathbfit,\mathbfsfit]{Tex-Gyre Pagella Bold Italic}
+%\else
+  \IfFileExists{tgpagella.sty}%
+    {%
+      \RequirePackage{tgpagella}%
+      \renewcommand*{\familydefault}{\rmdefault}}%
+    {}
+%\fi
+
+% symbols
+\if@symbols
+    \bankingcvicons{symbols}     % use symbols
+\else
+    \bankingcvicons{letters}     % do not use symbols, use letters
+\fi
+
+%-------------------------------------------------------------------------------
+%               Colors
+%-------------------------------------------------------------------------------
+% head and footer
+\colorlet{lastnamecolor}{color1}
+\colorlet{namecolor}{lastnamecolor}
+\colorlet{headrulecolor}{lastnamecolor!50}
+\colorlet{firstnamecolor}{lastnamecolor!60}
+\colorlet{titlecolor}{color2!85}
+\colorlet{addresscolor}{color2}
+\colorlet{quotecolor}{color1}
+\colorlet{pictureframecolor}{color1}
+% body
+\colorlet{bodyrulecolor}{color1}
+\colorlet{sectioncolor}{color1}
+\colorlet{subsectioncolor}{color1}
+\colorlet{hintstylecolor}{color0}
+% letter
+\colorlet{letterclosingcolor}{color2}
+% skillmatrix
+\colorlet{skillmatrixfullcolor}{color1}
+\colorlet{skillmatrixemptycolor}{color2!30}
+
+%-------------------------------------------------------------------------------
+%                header, body & footer
+%-------------------------------------------------------------------------------
+\RequirePackage[\bankingcvheadoptions]{bankingcvhead}
+\RequirePackage[\bankingcvbodyoptions]{bankingcvbody}
+
+\if@datainhead
+% if data is shown in head, do not include the footer
+\else
+  \RequirePackage{bankingcvfoot}
+\fi
+
+\endinput
+
+
+%% end of file `bankingcvstylebanking.sty'.

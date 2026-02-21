@@ -6,25 +6,29 @@
 % available at http://www.latex-project.org/lppl/.
 
 
-\documentclass[11pt,a4paper,sans]{moderncv}        % possible options include font size ('10pt', '11pt' and '12pt'), paper size ('a4paper', 'letterpaper', 'a5paper', 'legalpaper', 'executivepaper' and 'landscape') and font family ('sans' and 'roman')
+\documentclass[11pt,a4paper,sans,blue]{bankingcv}
+% Class options include:
+%   font size:   10pt, 11pt (default), 12pt
+%   paper size:  a4paper (default), letterpaper, a5paper, legalpaper, executivepaper, landscape
+%   font family: sans (default), roman
+%   color:       black, blue (default), burgundy, cerulean, green, grey, orange, purple, red
+%   rules:       fullrules, shortrules, mixedrules (default), norules
+%   alignment:   left (default), center, right
+%   header:      details (default), nodetails
+%   icons:       symbols (default), nosymbols
 
-\moderncvcolor{cerulean}                           % color options 'black', 'blue' (default), 'burgundy', 'green', 'grey', 'orange', 'purple' and 'red'; for contemporary style use 'cerulean'
-% moderncv themes
-\moderncvstyle[]{contemporary}                     % style options are 'casual' (default), 'classic', 'banking', 'oldstyle', 'fancy' and 'contemporary'
-                                                   % the 'contemporary' style optionally takes the `qr` (default) or `noqr` options
+%\bankingcvcolor{blue}                              % alternative: set color via preamble command
+%\bankingcvsetoptions{fullrules, left}              % alternative: set style options via preamble command
 %\renewcommand{\familydefault}{\sfdefault}         % to set the default font; use '\sfdefault' for the default sans serif font, '\rmdefault' for the default roman one, or any tex font name
 %\nopagenumbers{}                                  % uncomment to suppress automatic page numbering for CVs longer than one page
 
 % adjust the page margins
-\usepackage[hmargin=0.5in,vmargin=10pt]{geometry}                  % the 'contemporary' style looks better with reduced margins; uncomment the line below for increased margin
-%\usepackage[scale=0.75]{geometry}
+\usepackage[scale=0.75]{geometry}
 %\setlength{\hintscolumnwidth}{3cm}                % if you want to change the width of the column with the dates
 %\setlength{\makecvheadnamewidth}{10cm}            % for the 'classic' style, if you want to force the width allocated to your name and avoid line breaks. be careful though, the length is normally calculated to avoid any overlap with your personal info; use this at your own typographical risks...
 %\setlength{\listitemsymbolspace}{10pt}            % set custom spacing between list symbol and text item (influences \cvlistitem and \cvlistdoubleitem)
 
-% the 'contemporary' style allows to append additional elements to the head background; uncomment and customize if needed
-%\def\@moderncvheadBackground{
-%}
+% the 'contemporary' style is not available in bankingcv
 
 % font loading
 % for luatex and xetex, do not use inputenc and fontenc
@@ -50,7 +54,7 @@
 \fi
 
 % document language
-\usepackage[english]{babel}  % FIXME: using spanish breaks moderncv
+\usepackage[english]{babel}  % FIXME: using spanish breaks bankingcv
 
 % personal data
 \name{John}{Doe}
@@ -133,7 +137,7 @@
 %-----       resume       ---------------------------------------------------------
 \makecvtitle
 
-\section{Education}  % for 'contemporary' style use optional argument for displaying an icon, e.g. \section[\faGraduationCap]{Education}
+\section{Education}
 \cventry{year--year}{Degree}{Institution}{City}{\textit{Grade}}{Description}  % arguments 3 to 6 can be left empty
 \cventry{year--year}{Degree}{Institution}{City}{\textit{Grade}}{Description}
 

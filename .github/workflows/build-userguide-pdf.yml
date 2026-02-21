@@ -32,14 +32,14 @@ jobs:
       - name: Upload user guide pdf
         uses: actions/upload-artifact@v4
         with:
-          name: moderncv_userguide.pdf
+          name: bankingcv_userguide.pdf
           path: ./manual/moderncv_userguide.pdf
 
       - name: Upload user guide log
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
-          name: moderncv_userguide.log
+          name: bankingcv_userguide.log
           path: ./manual/moderncv_userguide.log
 
       - name: Push new user guide to master
