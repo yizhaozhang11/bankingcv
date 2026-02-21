@@ -3,7 +3,7 @@
 #makecvtitle(
   "John",
   "Doe",
-  title: "Résumé title",
+  title: "Resume title",
   contacts: (
     "street and number, postcode city, country",
     "+1 (234) 567 890",
