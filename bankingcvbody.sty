@@ -119,19 +119,21 @@
   \setlength{\parskip}{0\p@}}
 
 \RenewDocumentCommand{\section}{sm}{%
-  \par\addvspace{2.5ex}%
-  \phantomsection{}% reset the anchor for hyperrefs
-  \addcontentsline{toc}{section}{#2}%
-  \if@left\else\if@fullrules\else\if@mixedrules\else%
-    \sectionrule\fi\fi\fi%
-  \strut\sectionstyle{#2}%
-  \if@fullrules%
-    \sectionrule%
-  \else\if@mixedrules%
-    \sectionrule%
-  \else\if@right\else%
-    \sectionrule\fi\fi\fi%
-  \par\nobreak\addvspace{1ex}\@afterheading}
+    \par\addvspace{2.5ex}%
+    \nointerlineskip % <- prevents the extra baselineskip/lineskip glue
+    \phantomsection{}%
+    \addcontentsline{toc}{section}{#2}%
+    \if@left\else\if@fullrules\else\if@mixedrules\else%
+                \sectionrule\fi\fi\fi%
+    \nointerlineskip % <- also useful if \sectionrule is a rule box
+    \strut\sectionstyle{#2}%
+    \if@fullrules%
+        \sectionrule%
+    \else\if@mixedrules%
+            \sectionrule%
+        \else\if@right\else%
+                \sectionrule\fi\fi\fi%
+    \par\nobreak\addvspace{1ex}\@afterheading}
 
 \RenewDocumentCommand{\subsection}{sm}{%
   \par\addvspace{1ex}%
