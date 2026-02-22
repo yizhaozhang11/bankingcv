@@ -21,33 +21,43 @@
 %                identification
 %-------------------------------------------------------------------------------
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{bankingcvstyle}[2026-02-20 v1.0.0 banking-style curriculum vitae style]
+\ProvidesPackage{bankingcvstyle}[2026-02-22 v1.0.0 banking-style curriculum vitae style]
 
-% body rules type options: "fullrules", "shortrules", "mixedrules" (default) or "norules"
-\@initializecommand{\bankingcvbodyoptions}{}
-\DeclareOption{fullrules}    {\edef\bankingcvbodyoptions{\bankingcvbodyoptions,fullrules}}
-\DeclareOption{shortrules}   {\edef\bankingcvbodyoptions{\bankingcvbodyoptions,shortrules}}
-\DeclareOption{mixedrules}   {\edef\bankingcvbodyoptions{\bankingcvbodyoptions,mixedrules}}
-\DeclareOption{norules}      {\edef\bankingcvbodyoptions{\bankingcvbodyoptions,norules}}
 
-% body section alignment options: "left" (default), "center" or "right"
-\DeclareOption{left}         {\edef\bankingcvbodyoptions{\bankingcvbodyoptions,left}}
-\DeclareOption{center}       {\edef\bankingcvbodyoptions{\bankingcvbodyoptions,center}}
-\DeclareOption{right}        {\edef\bankingcvbodyoptions{\bankingcvbodyoptions,right}}
+%-------------------------------------------------------------------------------
+%                options
+%-------------------------------------------------------------------------------
+% rules type options: "fullrules", "shortrules", "mixedrules" (default) or "norules"
+\@initializeif{\if@fullrules}\@fullrulesfalse
+\DeclareOption{fullrules} {\@fullrulestrue\@shortrulesfalse\@mixedrulesfalse\@norulesfalse}
+\@initializeif{\if@shortrules}\@shortrulesfalse
+\DeclareOption{shortrules}{\@fullrulesfalse\@shortrulestrue\@mixedrulesfalse\@norulesfalse}
+\@initializeif{\if@mixedrules}\@mixedrulesfalse
+\DeclareOption{mixedrules}{\@fullrulesfalse\@shortrulesfalse\@mixedrulestrue\@norulesfalse}
+\@initializeif{\if@norules}\@norulesfalse
+\DeclareOption{norules}   {\@fullrulesfalse\@shortrulesfalse\@mixedrulesfalse\@norulestrue}
 
-% head options
-\@initializecommand{\bankingcvheadoptions}{}
+% section alignment options: "left" (default), "center" or "right"
+\@initializeif{\if@left}\@leftfalse
+\DeclareOption{left}      {\@lefttrue\@centerfalse\@rightfalse}
+\@initializeif{\if@center}\@centerfalse
+\DeclareOption{center}    {\@leftfalse\@centertrue\@rightfalse}
+\@initializeif{\if@right}\@rightfalse
+\DeclareOption{right}     {\@leftfalse\@centerfalse\@righttrue}
+
+% head options: "details" (default) or "nodetails"
+\@initializeif{\if@details}\@detailsfalse
 \@initializeif{\if@datainhead}\@datainheadtrue
-\DeclareOption{details}{\edef\bankingcvheadoptions{\bankingcvheadoptions,details}}
-\DeclareOption{nodetails}{\@datainheadfalse\edef\bankingcvheadoptions{\bankingcvheadoptions,nodetails}}
+\DeclareOption{details}   {\@detailstrue\@datainheadtrue}
+\DeclareOption{nodetails} {\@detailsfalse\@datainheadfalse}
 
-% toggle use of symbol fonts.
+% toggle use of symbol fonts
 \@initializeif{\if@symbols}\@symbolsfalse
-\DeclareOption{symbols}      {\@symbolstrue}
-\DeclareOption{nosymbols}    {\@symbolsfalse}
+\DeclareOption{symbols}   {\@symbolstrue}
+\DeclareOption{nosymbols} {\@symbolsfalse}
 
 \DeclareOption*{}% avoid choking on unknown options
-\ExecuteOptions{mixedrules,left,symbols}
+\ExecuteOptions{mixedrules,left,details,symbols}
 \ProcessOptions*\relax% \ProcessOptions* processes the options in the order provided (i.e., with the later ones possibly overriding the former ones), while \ProcessOptions processes them in the order of the package
 
 
@@ -77,8 +87,9 @@
     \bankingcvicons{letters}     % do not use symbols, use letters
 \fi
 
+
 %-------------------------------------------------------------------------------
-%               Colors
+%               colors
 %-------------------------------------------------------------------------------
 % head and footer
 \colorlet{lastnamecolor}{color1}
@@ -100,17 +111,507 @@
 \colorlet{skillmatrixfullcolor}{color1}
 \colorlet{skillmatrixemptycolor}{color2!30}
 
-%-------------------------------------------------------------------------------
-%                header, body & footer
-%-------------------------------------------------------------------------------
-\RequirePackage[\bankingcvheadoptions]{bankingcvhead}
-\RequirePackage[\bankingcvbodyoptions]{bankingcvbody}
 
-\if@datainhead
-    % if data is shown in head, do not include the footer
-\else
-    \RequirePackage{bankingcvfoot}
-\fi
+%-------------------------------------------------------------------------------
+%                required packages
+%-------------------------------------------------------------------------------
+% provides the commands for the skillmatrix as well as the command
+% \recompute@cvskillmatrix@lengths
+\RequirePackage{bankingcvskillmatrix}
+
+
+%-------------------------------------------------------------------------------
+%                header definition
+%-------------------------------------------------------------------------------
+% fonts
+\renewcommand*{\namefont}{\Huge\bfseries\upshape}
+\renewcommand*{\titlefont}{\Huge\mdseries\upshape}
+\renewcommand*{\addressfont}{\normalsize\mdseries\upshape}
+\renewcommand*{\quotefont}{\large\slshape}
+
+% styles
+\renewcommand*{\namestyle}[1]{{\namefont\textcolor{namecolor}{#1}}}
+\renewcommand*{\firstnamestyle}[1]{{\namefont\textcolor{firstnamecolor}{#1}}}
+\renewcommand*{\lastnamestyle}[1]{{\namefont\textcolor{lastnamecolor}{#1}}}
+\renewcommand*{\titlestyle}[1]{{\titlefont\textcolor{titlecolor}{#1}}}
+\renewcommand*{\addressstyle}[1]{{\addressfont\textcolor{addresscolor}{#1}}}
+\renewcommand*{\quotestyle}[1]{{\quotefont\textcolor{quotecolor}{#1}}}
+
+% commands
+\@initializecommand{\makeheaddetailssymbol}{%
+    {\hspace{1em}{\rmfamily\textbullet}\hspace{1em}}}% the \rmfamily is required to force Latin Modern fonts when using sans serif, as OMS/lmss/m/n is not defined and gets substituted by OMS/cmsy/m/n
+%   internal command to add an element to the footer
+%   it collects the elements in a temporary box, and checks when to flush the box
+\@initializebox{\makeheaddetailsbox}%
+\@initializebox{\makeheaddetailstempbox}%
+\@initializelength{\makeheaddetailswidth}%
+\@initializelength{\makeheaddetailsboxwidth}%
+\@initializeif{\if@firstmakeheaddetailselement}\@firstmakeheaddetailselementtrue%
+%   adds an element to the makehead, separated by makeheadsymbol
+%   usage: \addtomakehead[makeheadsymbol]{element}
+\newcommand*{\addtomakeheaddetails}[2][\makeheaddetailssymbol]{% TODO: use \@initializecommand, which requires modifying its definition to handle mandatory and optional arguments
+    \if@firstmakeheaddetailselement%
+        \savebox{\makeheaddetailstempbox}{\usebox{\makeheaddetailsbox}#2}%
+    \else%
+        \savebox{\makeheaddetailstempbox}{\usebox{\makeheaddetailsbox}#1#2}\fi%
+    \settowidth{\makeheaddetailsboxwidth}{\usebox{\makeheaddetailstempbox}}%
+    \ifdim\makeheaddetailsboxwidth<\makeheaddetailswidth%
+        \savebox{\makeheaddetailsbox}{\usebox{\makeheaddetailstempbox}}%
+        \@firstmakeheaddetailselementfalse%
+    \else%
+        \flushmakeheaddetails\\%
+        \savebox{\makeheaddetailsbox}{#2}%
+        \savebox{\makeheaddetailstempbox}{#2}%
+        \settowidth{\makeheaddetailsboxwidth}{\usebox{\makeheaddetailsbox}}%
+        \@firstmakeheaddetailselementfalse\fi}
+%   internal command to flush the makehead
+\@initializecommand{\flushmakeheaddetails}{%
+    \ifdim\makeheaddetailsboxwidth>0pt%
+        \strut\usebox{\makeheaddetailsbox}%
+        \savebox{\makeheaddetailsbox}{}%
+        \savebox{\makeheaddetailstempbox}{}%
+        \setlength{\makeheaddetailsboxwidth}{0pt}\fi}
+\@initializecommand{\makehead}{%
+    \setlength{\makeheaddetailswidth}{0.8\textwidth}%
+    \hfil%
+    \parbox{\makeheaddetailswidth}{%
+        \centering%
+        % name and title
+        \firstnamestyle{\@firstname\ }\lastnamestyle{\@lastname}%
+        \ifthenelse{\equal{\@title}{}}{}{\titlestyle{~|~\@title}}% \isundefined doesn't work on \@title, as LaTeX itself defines \@title (before it possibly gets redefined by \title)
+        % optional detailed information
+        \if@details{%
+            \\%
+            \addressfont\color{addresscolor}%
+            \ifthenelse{\isundefined{\@addressstreet}}{}{\addtomakeheaddetails{\addresssymbol\@addressstreet}%
+                \ifthenelse{\equal{\@addresscity}{}}{}{\addtomakeheaddetails[~--~]{\@addresscity}}% if \addresstreet is defined, \addresscity and \addresscountry will always be defined but could be empty
+                \ifthenelse{\equal{\@addresscountry}{}}{}{\addtomakeheaddetails[~--~]{\@addresscountry}}%
+                \flushmakeheaddetails\@firstmakeheaddetailselementtrue\\}%
+            \ifthenelse{\isundefined{\@born}}{}{\addtomakeheaddetails{\bornsymbol\@born}}%
+            \collectionloop{phones}{% the key holds the phone type (=symbol command prefix), the item holds the number
+                \addtomakeheaddetails{\csname\collectionloopkey phonesymbol\endcsname\collectionloopitem}}%
+            \ifthenelse{\isundefined{\@email}}{}{\addtomakeheaddetails{\emailsymbol\emaillink{\@email}}}%
+            \ifthenelse{\isundefined{\@homepage}}{}{\addtomakeheaddetails{\homepagesymbol%
+                    \ifthenelse{\equal{\@homepageprotocol}{http}}{\httplink{\@homepage}}{\httpslink{\@homepage}}}}%
+            \collectionloop{socials}{% the key holds the social type (=symbol command prefix), the item holds the link
+                \addtomakeheaddetails{\csname\collectionloopkey socialsymbol\endcsname\collectionloopitem}}%
+            \ifthenelse{\isundefined{\@extrainfo}}{}{\addtomakeheaddetails{\@extrainfo}}%
+            \flushmakeheaddetails}\fi}}% need to force a \par after this to avoid weird spacing bug at the first section if no blank line is left after \makehead
+
+
+%-------------------------------------------------------------------------------
+%                resume head definition
+%-------------------------------------------------------------------------------
+% lengths
+\@initializelength{\quotewidth}
+\renewcommand*{\recomputecvheadlengths}{%
+    \setlength{\quotewidth}{0.65\textwidth}}
+
+% commands
+\renewcommand*{\makecvhead}{% TODO: use \@initializecommand, which requires modifying its definition to handle \par
+% recompute lengths (in case we are switching from letter to resume, or vice versa)
+\recomputecvlengths%
+\makehead%
+% optional quote
+\ifthenelse{\isundefined{\@quote}}%
+{\vspace{2.5em}}%
+{%
+\\[2.5em]%
+{%
+\centering%
+\begin{minipage}{\quotewidth}%
+    \centering%
+    \quotestyle{\@quote}%
+\end{minipage}\\[2.5em]}}%
+\par}% to avoid weird spacing bug at the first section if no blank line is left after \maketitle}
+
+
+%-------------------------------------------------------------------------------
+%                letter head definition
+%-------------------------------------------------------------------------------
+% lengths
+%\renewcommand*{\recomputeletterheadlengths}{}
+
+% commands
+\renewcommand*{\makeletterhead}{%
+    % recompute lengths (in case we are switching from letter to resume, or vice versa)
+    \recomputeletterlengths%
+    % sender contact info
+    \hfill%
+    \begin{minipage}{.5\textwidth}%
+        % optional detailed information
+        \if@details%
+            \raggedleft%
+            \addressfont\textcolor{color2}{%
+                {\bfseries\upshape\@firstname~\@lastname}\@firstdetailselementfalse%
+                % optional detailed information
+                \ifthenelse{\isundefined{\@addressstreet}}{}{\makenewline\addresssymbol\@addressstreet%
+                    \ifthenelse{\equal{\@addresscity}{}}{}{\makenewline\@addresscity}% if \addresstreet is defined, \addresscity and addresscountry will always be defined but could be empty
+                    \ifthenelse{\equal{\@addresscountry}{}}{}{\makenewline\@addresscountry}}%
+                \collectionloop{phones}{% the key holds the phone type (=symbol command prefix), the item holds the number
+                    \makenewline\csname\collectionloopkey phonesymbol\endcsname\collectionloopitem}%
+                \ifthenelse{\isundefined{\@email}}{}{\makenewline\emailsymbol\emaillink{\@email}}%
+                \ifthenelse{\isundefined{\@homepage}}{}{\makenewline\homepagesymbol%
+                    \ifthenelse{\equal{\@homepageprotocol}{http}}{\httplink{\@homepage}}{\httpslink{\@homepage}}}%
+                \collectionloop{socials}{% the key holds the social type (=symbol command prefix), the item holds the link
+                    \makenewline\csname\collectionloopkey socialsymbol\endcsname\collectionloopitem}%
+                \ifthenelse{\isundefined{\@extrainfo}}{}{\makenewline\@extrainfo}}\fi%
+    \end{minipage}\\[2em]
+    % recipient block
+    \begin{minipage}[t]{.5\textwidth}
+        \raggedright%
+        \addressfont%
+        {\bfseries\upshape\@recipientname}\\%
+        \@recipientaddress%
+    \end{minipage}
+    % date
+    \hfill% US style
+    %  \\[1em]% UK style
+    \@date\\[3em]% US informal style: "January 1, 1900"; UK formal style: "01/01/1900"
+    % optional subject
+    \ifthenelse{\isundefined{\@subject}}{}{{\bfseries\@subject\\[3em]}}
+    % opening
+    \raggedright%
+    \@opening\\[1.5em]%
+    % ensure no extra spacing after \makelettertitle due to a possible blank line
+    %  \ignorespacesafterend% not working
+    \hspace{0pt}\par\vspace{-\baselineskip}\vspace{-\parskip}}
+
+
+%-------------------------------------------------------------------------------
+%                body definition
+%-------------------------------------------------------------------------------
+% fonts
+\renewcommand*{\sectionfont}{%
+    \if@norules%
+        \Large\bfseries\scshape%
+    \else%
+        \Large\bfseries\upshape\fi}
+\renewcommand*{\subsectionfont}{%
+    \if@norules%
+        \large\mdseries\itshape%
+    \else%
+        \large\upshape\fontseries{sb}\selectfont\fi}
+\renewcommand*{\hintfont}{\bfseries}
+
+% styles
+\renewcommand*{\sectionstyle}[1]{{%
+            \if@center\centering\else%
+                \if@right\raggedleft\fi\fi%
+            \sectionfont\textcolor{sectioncolor}{#1}%
+            \if@shortrules\else%
+                \par\fi}}
+\renewcommand*{\subsectionstyle}[1]{{%
+            \if@center\centering\else%
+                \if@right\raggedleft\fi\fi%
+            \subsectionfont\textcolor{subsectioncolor}{#1}%
+            \if@shortrules\else\if@mixedrules\else%
+                    \par\fi\fi}}
+\renewcommand*{\hintstyle}[1]{{\hintfont\textcolor{hintstylecolor}{#1}}}
+
+
+%-------------------------------------------------------------------------------
+%                resume body definition
+%-------------------------------------------------------------------------------
+% lengths
+%   used by \cvitem (and all children command)
+\@initializelength{\hintscolumnwidth}             \setlength{\hintscolumnwidth}{0.3\textwidth}
+\@initializelength{\separatorcolumnwidth}         \setlength{\separatorcolumnwidth}{0.025\textwidth}
+\@initializelength{\maincolumnwidth}
+%   used by \cvdoubleitem
+\@initializelength{\doubleitemcolumnwidth}
+%   used by \cvtripleitem
+\@initializelength{\tripleitemcolumnwidth}
+%   used by \cvlistitem
+\@initializelength{\listitemsymbolwidth}          \settowidth{\listitemsymbolwidth}{\listitemsymbol}
+\@initializelength{\listitemcolumnwidth}
+%   used by \cvlistdoubleitem
+\@initializelength{\listdoubleitemcolumnwidth}
+\@initializelength{\listitemsymbolspace}          \setlength{\listitemsymbolspace}{0pt}
+
+% commands
+\renewcommand*{\recomputecvbodylengths}{%
+    % body lengths
+    \setlength{\maincolumnwidth}{\textwidth-\leftskip-\rightskip}%
+    \setlength{\listitemcolumnwidth}{\maincolumnwidth-\listitemsymbolwidth}%
+    \setlength{\doubleitemcolumnwidth}{\maincolumnwidth-\separatorcolumnwidth}%
+    \setlength{\doubleitemcolumnwidth}{0.5\doubleitemcolumnwidth}%
+    \setlength{\tripleitemcolumnwidth}{\maincolumnwidth-2\separatorcolumnwidth}%
+    \setlength{\tripleitemcolumnwidth}{0.33\tripleitemcolumnwidth}%
+    \setlength{\listdoubleitemcolumnwidth}{\maincolumnwidth-\listitemsymbolwidth-\separatorcolumnwidth-\listitemsymbolwidth}%
+    \setlength{\listdoubleitemcolumnwidth}{0.5\listdoubleitemcolumnwidth}%
+    \recompute@cvskillmatrix@lengths
+    % regular lengths
+    \setlength{\parskip}{0\p@}}
+
+\RenewDocumentCommand{\section}{sm}{%
+    \par\addvspace{2.5ex}%
+    \nointerlineskip % <- prevents the extra baselineskip/lineskip glue
+    \phantomsection{}%
+    \addcontentsline{toc}{section}{#2}%
+    \if@left\else\if@fullrules\else\if@mixedrules\else%
+                \sectionrule\fi\fi\fi%
+    \nointerlineskip % <- also useful if \sectionrule is a rule box
+    \strut\sectionstyle{#2}%
+    \if@fullrules%
+        \sectionrule%
+    \else\if@mixedrules%
+            \sectionrule%
+        \else\if@right\else%
+                \sectionrule\fi\fi\fi%
+    \par\nobreak\addvspace{1ex}\@afterheading}
+
+\RenewDocumentCommand{\subsection}{sm}{%
+    \par\addvspace{1ex}%
+    \phantomsection{}%
+    \addcontentsline{toc}{subsection}{#2}%
+    \if@left\else\if@fullrules\else%
+            \subsectionrule\fi\fi%
+    \strut\subsectionstyle{#2}%
+    \if@fullrules%
+        \subsectionrule%
+    \else\if@right\else%
+            \subsectionrule\fi\fi%
+    \par\nobreak\addvspace{0.5ex}\@afterheading}
+
+\newcommand*{\sectionrule}{}
+\newcommand*{\subsectionrule}{}
+\if@fullrules%
+    \renewcommand*{\sectionrule}{\par\nobreak\vspace*{-.7\baselineskip}\leavevmode{\color{bodyrulecolor}\leaders\hbox{\rule{1pt}{0.4pt}}\hfill\kern0pt}}
+    \renewcommand*{\subsectionrule}{\par\nobreak\vspace*{-.7\baselineskip}\leavevmode{\color{bodyrulecolor}\xleaders\hbox to 0.35em{\scriptsize.}\hfill}}\fi% different subsectionrules will not be perfectly aligned, but remaining space at the end of the fill will be distributed evenly between leaders, so it will be barely visible}
+\if@shortrules%
+    \renewcommand*{\sectionrule}{\leavevmode{\color{bodyrulecolor}\leaders\hbox{\rule{1pt}{0.4pt}}\hfill\kern0pt}}
+    \renewcommand*{\subsectionrule}{\leavevmode{\color{bodyrulecolor}\xleaders\hbox to 0.35em{\scriptsize.}\hfill}}\fi% different subsectionrules will not be perfectly aligned, but remaining space at the end of the fill will be distributed evenly between leaders, so it will be barely visible}}
+\if@mixedrules%
+    \renewcommand*{\sectionrule}{\par\nobreak\vspace*{-.7\baselineskip}\leavevmode{\color{bodyrulecolor}\leaders\hbox{\rule{1pt}{0.4pt}}\hfill\kern0pt}}
+    \renewcommand*{\subsectionrule}{\leavevmode{\color{bodyrulecolor}\xleaders\hbox to 0.35em{\scriptsize.}\hfill}}\fi% different subsectionrules will not be perfectly aligned, but remaining space at the end of the fill will be distributed evenly between leaders, so it will be barely visible}}
+\if@norules%
+    \renewcommand*{\sectionrule}{}
+    \renewcommand*{\subsectionrule}{}\fi
+
+\renewcommand*{\cvitem}[3][.25em]{%
+    \ifstrempty{#2}{}{\hintstyle{#2}: }{#3}%
+    \par\addvspace{#1}}
+
+\renewcommand*{\cvdoubleitem}[5][.25em]{%
+    \begin{minipage}[t]{\doubleitemcolumnwidth}\hintstyle{#2}: #3\end{minipage}%
+    \hfill% fill of \separatorcolumnwidth
+    \begin{minipage}[t]{\doubleitemcolumnwidth}\ifstrempty{#4}{}{\hintstyle{#4}: }#5\end{minipage}%
+    \par\addvspace{#1}}
+
+\renewcommand*{\cvtripleitem}[7][.1em]{%
+    \begin{minipage}[t]{\tripleitemcolumnwidth}\hintstyle{#2}: #3\end{minipage}%
+    \hfill% fill of \separatorcolumnwidth
+    \begin{minipage}[t]{\tripleitemcolumnwidth}\hintstyle{#4}: #5\end{minipage}%
+    \hfill% fill of \separatorcolumnwidth
+    \begin{minipage}[t]{\tripleitemcolumnwidth}\ifstrempty{#6}{}{\hintstyle{#6}: }#7\end{minipage}%
+    \par\addvspace{#1}}
+
+\renewcommand*{\cvlistitem}[2][.25em]{%
+    \listitemsymbol\hspace{\listitemsymbolspace}\begin{minipage}[t]{\listitemcolumnwidth-\listitemsymbolspace}#2\end{minipage}%
+    \par\addvspace{#1}}
+
+\renewcommand*{\cvlistdoubleitem}[3][.25em]{%
+    \cvitem[#1]{}{\listitemsymbol\hspace{\listitemsymbolspace}\begin{minipage}[t]{\listdoubleitemcolumnwidth-\listitemsymbolspace}#2\end{minipage}%
+        \hfill% fill of \separatorcolumnwidth
+        \ifstrempty{#3}%
+        {}%
+        {\listitemsymbol\hspace{\listitemsymbolspace}\begin{minipage}[t]{\listdoubleitemcolumnwidth-\listitemsymbolspace}#3\end{minipage}}}}
+
+\renewcommand*{\cventry}[7][.25em]{
+    \begin{tabular*}{\maincolumnwidth}{l@{\extracolsep{\fill}}r}%
+        % skip the company name and location line if both are empty, allowing one to show multiple roles within the same company without repeating it
+        \ifboolexpr{%
+            test {\ifstrempty{#4}}
+            and
+            test {\ifstrempty{#5}}}%
+        {}%
+        {{\bfseries #4} & {\bfseries #5}\\}%
+        {\itshape #3\ifstrempty{#6}{}{, #6}} & {\itshape #2}\\%
+    \end{tabular*}%
+    \ifx&#7&%
+    \else{\\%
+        \begin{minipage}{\maincolumnwidth}%
+            \small#7%
+        \end{minipage}}\fi%
+    \par\addvspace{#1}}
+
+\@initializebox{\cvitemwithcommentmainbox}
+\@initializelength{\cvitemwithcommentmainlength}
+\@initializelength{\cvitemwithcommentcommentlength}
+\renewcommand*{\cvitemwithcomment}[4][.25em]{%
+    \savebox{\cvitemwithcommentmainbox}{\ifstrempty{#2}{}{\hintstyle{#2}: }#3}%
+    \setlength{\cvitemwithcommentmainlength}{\widthof{\usebox{\cvitemwithcommentmainbox}}}%
+    \setlength{\cvitemwithcommentcommentlength}{\maincolumnwidth-\separatorcolumnwidth-\cvitemwithcommentmainlength}%
+    \begin{minipage}[t]{\cvitemwithcommentmainlength}\usebox{\cvitemwithcommentmainbox}\end{minipage}%
+    \hfill% fill of \separatorcolumnwidth
+    \begin{minipage}[t]{\cvitemwithcommentcommentlength}\raggedleft\small\itshape#4\end{minipage}%
+    \par\addvspace{#1}}
+
+\renewenvironment{thebibliography}[1]%
+{%
+    \bibliographyhead{\refname}%
+    %    \small%
+    \begin{list}{\bibliographyitemlabel}%
+        {%
+            \setlength{\topsep}{0pt}%
+            \setlength{\labelwidth}{0pt}%
+            \ifthenelse{\equal{\bibliographyitemlabel}{}}%
+            {\setlength{\labelsep}{0pt}}%
+            {\setlength{\labelsep}{\separatorcolumnwidth}}%
+            \leftmargin\labelwidth%
+            \advance\leftmargin\labelsep%
+            \@openbib@code%
+            \usecounter{enumiv}%
+            \let\p@enumiv\@empty%
+            \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+        \sloppy%
+        \clubpenalty4000%\@clubpenalty \clubpenalty%
+        \widowpenalty4000%
+        \sfcode`\.\@m%
+        \sfcode `\=1000\relax}%
+        {%
+        \def\@noitemerr{\@latex@warning{Empty `thebibliography' environment}}%
+    \end{list}}
+
+
+%-------------------------------------------------------------------------------
+%                letter body definition
+%-------------------------------------------------------------------------------
+\renewcommand*{\recomputeletterbodylengths}{%
+    \recomputecvbodylengths%
+    \setlength{\parskip}{6\p@}}
+
+\renewcommand*{\makeletterclosing}{%
+    \@closing\ifthenelse{\isundefined{\@signature}}{\\[3em]}{\\[1em]}% shrink space when signature is set
+    \ifthenelse{\isundefined{\@signature}}{}{{\@signature\\}}
+    {\bfseries\@firstname~\@lastname}%
+    \ifthenelse{\isundefined{\@enclosure}}{}{%
+        \\%
+        \vfil%
+        {\color{letterclosingcolor}\itshape\enclname: \@enclosure}}%
+    \vfil}
+
+
+%-------------------------------------------------------------------------------
+%                footer definition
+%-------------------------------------------------------------------------------
+% fonts
+\newcommand*{\footaddressfont}{\normalsize\mdseries\slshape}
+
+% symbols
+%   footer symbol used to separate footer elements
+\newcommand*{\footsymbol}{%
+    {\hspace{1em}{\rmfamily\textbullet}\hspace{1em}}}% the \rmfamily is required to force Latin Modern fonts when using sans serif, as OMS/lmss/m/n is not defined and gets substituted by OMS/cmsy/m/n
+
+% lengths
+\@initializelength{\footwidth}%
+\renewcommand*{\recomputefootlengths}{%
+    \setlength{\footwidth}{0.8\textwidth}}
+
+% commands
+%   internal command to add an element to the footer
+%   it collects the elements in a temporary box, and checks when to flush the box
+\newsavebox{\footbox}
+\newsavebox{\foottempbox}
+\@initializelength{\footboxwidth}%
+\@initializeif{\if@firstfootelement}\@firstfootelementtrue%
+%   adds an element to the footer, separated by footsymbol
+%   usage: \addtofoot[footsymbol]{element}
+\newcommand*{\addtofoot}[2][\footsymbol]{%
+    \if@firstfootelement%
+        \savebox{\foottempbox}{\usebox{\footbox}#2}%
+    \else%
+        \savebox{\foottempbox}{\usebox{\footbox}#1#2}\fi%
+    \settowidth{\footboxwidth}{\usebox{\foottempbox}}%
+    \ifdim\footboxwidth<\footwidth%
+        \savebox{\footbox}{\usebox{\foottempbox}}%
+        \@firstfootelementfalse%
+    \else%
+        \flushfoot\\%
+        \savebox{\footbox}{#2}%
+        \savebox{\foottempbox}{#2}%
+        \settowidth{\footboxwidth}{\usebox{\footbox}}%
+        \@firstfootelementfalse\fi}
+%   internal command to flush the foot
+\newcommand*{\flushfoot}{%
+    \strut\usebox{\footbox}%
+    \savebox{\footbox}{}%
+    \savebox{\foottempbox}{}%
+    \setlength{\footboxwidth}{0pt}}
+
+
+%-------------------------------------------------------------------------------
+%                resume foot definition
+%-------------------------------------------------------------------------------
+% lengths
+\renewcommand*{\recomputecvfootlengths}{\recomputefootlengths}
+
+% commands
+\renewcommand*{\makecvfoot}{%
+    \if@datainhead
+    \else
+        \recomputecvfootlengths{}%
+        \fancypagestyle{plain}{%
+            \fancyfoot[c]{%
+                \parbox[b]{\footwidth}{%
+                    \centering%
+                    \color{addresscolor}\footaddressfont%
+                    \vspace{\baselineskip}% forces a white line to ensure space between main text and footer (as footer height can't be known in advance)
+                    \ifthenelse{\isundefined{\@addressstreet}}{}{\addtofoot[]{\addresssymbol\@addressstreet}%
+                        \ifthenelse{\equal{\@addresscity}{}}{}{\addtofoot[~--~]{\@addresscity}}% if \addresstreet is defined, \addresscity and \addresscountry will always be defined but could be empty
+                        \ifthenelse{\equal{\@addresscountry}{}}{}{\addtofoot[~--~]{\@addresscountry}}%
+                        \flushfoot\@firstfootelementtrue\\}%
+                    \ifthenelse{\isundefined{\@born}}{}{\addtofoot{\bornsymbol\@born}\flushfoot\@firstfootelementtrue\\}%
+                    \collectionloop{phones}{% the key holds the phone type (=symbol command prefix), the item holds the number
+                        \addtofoot{\csname\collectionloopkey phonesymbol\endcsname\collectionloopitem}}%
+                    \ifthenelse{\isundefined{\@email}}{}{\addtofoot{\emailsymbol\emaillink{\@email}}}%
+                    \ifthenelse{\isundefined{\@homepage}}{}{\addtofoot{\homepagesymbol%
+                            \ifthenelse{\equal{\@homepageprotocol}{http}}{\httplink{\@homepage}}{\httpslink{\@homepage}}}}%
+                    \collectionloop{socials}{% the key holds the social type (=symbol command prefix), the item holds the link
+                        \addtofoot{\csname\collectionloopkey socialsymbol\endcsname\collectionloopitem}}%
+                    \ifthenelse{\isundefined{\@extrainfo}}{}{\addtofoot{\@extrainfo}}%
+                    \ifthenelse{\lengthtest{\footboxwidth=0pt}}{}{\flushfoot}% the lengthtest is required to avoid flushing an empty footer, which could cause a blank line due to the \\ after the address, if no other personal info is used
+                }}}%
+        \pagestyle{plain}%
+    \fi}
+
+
+%-------------------------------------------------------------------------------
+%                letter foot definition
+%-------------------------------------------------------------------------------
+% commands
+\renewcommand*{\recomputeletterfootlengths}{\recomputefootlengths}
+\renewcommand*{\makeletterfoot}{%
+    \if@datainhead
+    \else
+        \recomputeletterfootlengths{}%
+        \fancypagestyle{plain}{%
+            \fancyfoot[c]{%
+                \parbox[b]{\footwidth}{%
+                    \centering%
+                    \footaddressfont\color{addresscolor}%
+                    \vspace{\baselineskip}% forces a white line to ensure space between main text and footer (as footer height can't be known in advance)
+                    \vspace{-\baselineskip}% to cancel out the extra vertical space taken by the name (below) and ensure perfect alignment of letter and cv footers
+                    \strut{\bfseries\upshape\@firstname~\@lastname}\\% the \strut is required to ensure the line is exactly \baselineskip tall
+                    \ifthenelse{\isundefined{\@addressstreet}}{}{\addtofoot[]{\addresssymbol\@addressstreet}%
+                        \ifthenelse{\equal{\@addresscity}{}}{}{\addtofoot[~--~]{\@addresscity}}% if \addresstreet is defined, \addresscity and addresscountry will always be defined but could be empty
+                        \ifthenelse{\equal{\@addresscountry}{}}{}{\addtofoot[~--~]{\@addresscountry}}%
+                        \flushfoot\@firstfootelementtrue\\}%
+                    \ifthenelse{\isundefined{\@born}}{}{\addtofoot{\bornsymbol\@born}\flushfoot\@firstfootelementtrue\\}%
+                    \collectionloop{phones}{% the key holds the phone type (=symbol command prefix), the item holds the number
+                        \addtofoot{\csname\collectionloopkey phonesymbol\endcsname\collectionloopitem}}%
+                    \ifthenelse{\isundefined{\@email}}{}{\addtofoot{\emailsymbol\emaillink{\@email}}}%
+                    \ifthenelse{\isundefined{\@homepage}}{}{\addtofoot{\homepagesymbol%
+                            \ifthenelse{\equal{\@homepageprotocol}{http}}{\httplink{\@homepage}}{\httpslink{\@homepage}}}}%
+                    \collectionloop{socials}{% the key holds the social type (=symbol command prefix), the item holds the link
+                        \addtofoot{\csname\collectionloopkey socialsymbol\endcsname\collectionloopitem}}%
+                    \ifthenelse{\isundefined{\@extrainfo}}{}{\addtofoot{\@extrainfo}}%
+                    \ifthenelse{\lengthtest{\footboxwidth=0pt}}{}{\flushfoot}% the lengthtest is required to avoid flushing an empty footer, which could cause a blank line due to the \\ after the address, if no other personal info is used
+                }}}%
+        \pagestyle{plain}%
+    \fi}
+
 
 \endinput
 

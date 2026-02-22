@@ -1,44 +1,24 @@
-bankingcv version 1.3.0 (22 Feb 2026)
-- Removed `bankingcvcompatibility.sty`.
-- Removed automatic loading of compatibility aliases from `bankingcv.cls`.
-  Legacy `moderncv*` command aliases are no longer provided.
-- Updated README usage examples to use `bankingcv*` commands only.
-- Updated package manifest for the compatibility-file removal.
-
-bankingcv version 1.2.0 (22 Feb 2026)
-- Removed per-color compatibility wrapper files:
-  `bankingcvcolorblack.sty`, `bankingcvcolorblue.sty`,
-  `bankingcvcolorburgundy.sty`, `bankingcvcolorcerulean.sty`,
-  `bankingcvcolorgreen.sty`, `bankingcvcolorgrey.sty`,
-  `bankingcvcolororange.sty`, `bankingcvcolorpurple.sty`,
-  and `bankingcvcolorred.sty`.
-- Color handling now relies exclusively on `bankingcvcolor.sty`.
-- Updated package manifest to match the simplified color file layout.
-
-bankingcv version 1.1.0 (22 Feb 2026)
-- Added `bankingcvcolor.sty` as a centralized, option-driven color scheme loader.
-- Simplified color file structure: `bankingcvcolor<name>.sty` files are now thin
-  compatibility wrappers that delegate to `bankingcvcolor.sty`.
-- Updated `bankingcv.cls` to use the centralized color loader while preserving
-  existing class options and `\bankingcvcolor{...}` behavior.
-
-bankingcv version 1.0.0 (20 Feb 2026)
+bankingcv version 1.0.0 (22 Feb 2026)
 - New package: bankingcv is a simplified fork of moderncv v2.5.1, keeping only the
   banking style. Renamed from moderncv to bankingcv per LPPL requirements.
 - Removed all styles except banking (casual, classic, contemporary, empty, fancy,
   oldstyle) and their associated head/body/foot variant files.
-- Removed numbered head/body/foot variant suffixes (headiii, bodyiii, footi) since
-  only one variant remains; files are now bankingcvhead.sty, bankingcvbody.sty,
-  bankingcvfoot.sty.
-- Simplified internal package loading: bankingcvstyle.sty now directly uses
-  \RequirePackage instead of the numbered \moderncvhead/\moderncvbody/\moderncvfoot
-  commands; the \@loadmoderncvpackage helper has been removed from bankingcv.cls.
+- Removed all compatibility wrappers:
+  - `bankingcvcompatibility.sty` and legacy `moderncv*` command aliases
+  - per-color wrapper files (`bankingcvcolor<name>.sty`)
+  - `bankingcvcolors.sty` (merged into `bankingcvcolor.sty`)
+- Merged `bankingcvhead.sty`, `bankingcvbody.sty`, and `bankingcvfoot.sty` into
+  `bankingcvstyle.sty`, and removed those standalone files.
+- Updated `bankingcv.cls` legacy helpers (`\bankingcvhead`, `\bankingcvbody`,
+  `\bankingcvfoot`) to append style options instead of loading removed files.
+- Simplified internal package loading and package manifests to match the reduced
+  file layout.
 - Simplified bankingcvskillmatrix.sty: removed all dead code for unused body
   variants (i, ii, iv, v).
 - Fixed: duplicate \simplexsocialsymbol definition (second was meant for
   \threemasocialsymbol).
 - Fixed: typo "Languagi" -> "Language" in skillmatrix column width calculation.
-- Version reset to 1.0.0 for this new package.
+- Version is kept at 1.0.0 before first public release.
 
 version 2.5.1 (31 Jan 2026)
 - Fix french babel breaking contemporary style (#219)

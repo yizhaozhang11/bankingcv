@@ -23,7 +23,7 @@
 %                identification
 %-------------------------------------------------------------------------------
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{bankingcv}[2026-02-22 v1.3.0 banking curriculum vitae document class]
+\ProvidesClass{bankingcv}[2026-02-22 v1.0.0 banking curriculum vitae document class]
 
 
 %-------------------------------------------------------------------------------
@@ -479,20 +479,20 @@
 \newcommand*{\bankingcvsetoptions}[1]{%
   \edef\@bankingcvstyleoptions{\@bankingcvstyleoptions,#1}}
 
-% loads the header (provided for advanced use; normally auto-loaded by the class)
+% legacy helper that appends head-related style options; the second argument is ignored
 % usage: \bankingcvhead[<optional head option>]{}
 \newcommand*{\bankingcvhead}[2][]{%
-  \RequirePackage[#1]{bankingcvhead}}
+  \ifstrempty{#1}{}{\bankingcvsetoptions{#1}}}
 
-% loads the body (provided for advanced use; normally auto-loaded by the class)
+% legacy helper that appends body-related style options; the second argument is ignored
 % usage: \bankingcvbody[<optional body option>]{}
 \newcommand*{\bankingcvbody}[2][]{%
-  \RequirePackage[#1]{bankingcvbody}}
+  \ifstrempty{#1}{}{\bankingcvsetoptions{#1}}}
 
-% loads the footer (provided for advanced use; normally auto-loaded by the class)
+% legacy helper that appends footer-related style options; the second argument is ignored
 % usage: \bankingcvfoot[<optional foot option>]{}
 \newcommand*{\bankingcvfoot}[2][]{%
-  \RequirePackage[#1]{bankingcvfoot}}
+  \ifstrempty{#1}{}{\bankingcvsetoptions{#1}}}
 
 % loads an icons set
 % usage: \bankingcvicons{<icon set name>}
