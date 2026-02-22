@@ -16,6 +16,8 @@ bankingcv version 1.0.0 (22 Feb 2026)
 - Removed all icon backends except `bankingcviconsletters.sty`; icon rendering
   is now letters-only.
 - Removed `bankingcvdebugtools.sty` (optional debug helpers) from the package.
+- Simplified `template.tex` to a minimal starter and removed sample image files
+  (`picture.jpg`, `picture.eps`) from the repository/template.
 - Simplified bankingcvskillmatrix.sty: removed all dead code for unused body
   variants (i, ii, iv, v).
 - Fixed: duplicate \simplexsocialsymbol definition (second was meant for
