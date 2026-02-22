@@ -87,7 +87,7 @@
 % rules: "fullrules", "shortrules", "mixedrules" (default) or "norules"
 % alignment: "left" (default), "center" or "right"
 % header details: "details" (default) or "nodetails"
-% icons: "symbols" (default) or "nosymbols"
+% icons: letters-only; legacy "symbols"/"nosymbols" options are accepted as no-op
 \newcommand*{\@bankingcvstyleoptions}{}
 \DeclareOption{fullrules} {\edef\@bankingcvstyleoptions{\@bankingcvstyleoptions,fullrules}}
 \DeclareOption{shortrules}{\edef\@bankingcvstyleoptions{\@bankingcvstyleoptions,shortrules}}
@@ -98,8 +98,8 @@
 \DeclareOption{right}     {\edef\@bankingcvstyleoptions{\@bankingcvstyleoptions,right}}
 \DeclareOption{details}   {\edef\@bankingcvstyleoptions{\@bankingcvstyleoptions,details}}
 \DeclareOption{nodetails} {\edef\@bankingcvstyleoptions{\@bankingcvstyleoptions,nodetails}}
-\DeclareOption{symbols}   {\edef\@bankingcvstyleoptions{\@bankingcvstyleoptions,symbols}}
-\DeclareOption{nosymbols} {\edef\@bankingcvstyleoptions{\@bankingcvstyleoptions,nosymbols}}
+\DeclareOption{symbols}   {}
+\DeclareOption{nosymbols} {}
 
 % execute default options
 \ExecuteOptions{a4paper,11pt,final}
@@ -270,6 +270,7 @@
 % defines one's title (optional)
 % usage: \title{<title>}
 \renewcommand*{\title}[1]{\def\@title{#1}}
+\title{}
 
 % defines one's address (optional)
 % usage: \address{<street>}{<city>}{<country>}
@@ -494,10 +495,15 @@
 \newcommand*{\bankingcvfoot}[2][]{%
   \ifstrempty{#1}{}{\bankingcvsetoptions{#1}}}
 
-% loads an icons set
-% usage: \bankingcvicons{<icon set name>}
+% loads the letters icon set; unsupported names fall back to letters
+% usage: \bankingcvicons{letters}
 \newcommand*{\bankingcvicons}[1]{%
-  \RequirePackage{bankingcvicons#1}}
+  \ifstrequal{#1}{letters}%
+    {\RequirePackage{bankingcviconsletters}}%
+    {%
+      \PackageWarningNoLine{bankingcv}{Only `letters' icons are available; loading `bankingcviconsletters'}%
+      \RequirePackage{bankingcviconsletters}%
+    }}
 
 % recomputes all automatic lengths
 \newcommand*{\recomputeheadlengths}{\recomputecvheadlengths}

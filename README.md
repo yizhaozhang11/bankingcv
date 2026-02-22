@@ -23,7 +23,7 @@ In your document preamble, use:
 \bankingcvcolor{blue}   % color options: 'black', 'blue' (default), 'burgundy', 'green', 'grey', 'orange', 'purple', 'red'
 ```
 
-If you are using the [`academicons`](https://ctan.org/tex-archive/fonts/academicons) package in the template, you will need to use a Xe(La)TeX or Lua(La)TeX engine to render the icons. Otherwise, an alternative icon package will be used automatically.
+The package now uses letters-only contact/social markers (`bankingcviconsletters.sty`) to keep dependencies minimal.
 
 ## Licence
 

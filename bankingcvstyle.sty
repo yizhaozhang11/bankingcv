@@ -51,18 +51,13 @@
 \DeclareOption{details}   {\@detailstrue\@datainheadtrue}
 \DeclareOption{nodetails} {\@detailsfalse\@datainheadfalse}
 
-% toggle use of symbol fonts
-\@initializeif{\if@symbols}\@symbolsfalse
-\DeclareOption{symbols}   {\@symbolstrue}
-\DeclareOption{nosymbols} {\@symbolsfalse}
-
 \DeclareOption*{}% avoid choking on unknown options
-\ExecuteOptions{mixedrules,left,details,symbols}
+\ExecuteOptions{mixedrules,left,details}
 \ProcessOptions*\relax% \ProcessOptions* processes the options in the order provided (i.e., with the later ones possibly overriding the former ones), while \ProcessOptions processes them in the order of the package
 
 
 %-------------------------------------------------------------------------------
-%                fonts & icons
+%                fonts
 %-------------------------------------------------------------------------------
 % TeX Gyre Pagella font
 %\ifxetexorluatex
@@ -80,12 +75,8 @@
 {}
 %\fi
 
-% symbols
-\if@symbols
-    \bankingcvicons{symbols}     % use symbols
-\else
-    \bankingcvicons{letters}     % do not use symbols, use letters
-\fi
+% icons (letters only)
+\RequirePackage{bankingcviconsletters}
 
 
 %-------------------------------------------------------------------------------

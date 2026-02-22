@@ -23,16 +23,10 @@ bankingcvstyle.sty
 bankingcvcolor.sty
 
 % -- Icons --
-bankingcviconssymbols.sty
-bankingcviconsawesome.sty
-bankingcviconsacademic.sty
-bankingcviconsmarvosym.sty
 bankingcviconsletters.sty
-bankingcviconstikz.sty
 
 % -- Utilities --
 bankingcvcollection.sty
-bankingcvdebugtools.sty
 bankingcvskillmatrix.sty
 tweaklist.sty
 
