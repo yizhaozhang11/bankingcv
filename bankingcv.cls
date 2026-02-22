@@ -23,7 +23,7 @@
 %                identification
 %-------------------------------------------------------------------------------
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{bankingcv}[2026-02-20 v1.0.0 banking curriculum vitae document class]
+\ProvidesClass{bankingcv}[2026-02-22 v1.3.0 banking curriculum vitae document class]
 
 
 %-------------------------------------------------------------------------------
@@ -171,7 +171,8 @@
 % auto-load the color scheme and the (only) banking style at the end of the preamble,
 % using whatever color and options were chosen via class options or \bankingcvcolor.
 \AtEndPreamble{%
-  \RequirePackage{bankingcvcolor\@bankingcvcolorname}%
+  \RequirePackage{bankingcvcolor}%
+  \bankingcvsetcolor{\@bankingcvcolorname}%
   \RequirePackage[\@bankingcvstyleoptions]{bankingcvstyle}}
 
 % graphics
@@ -229,9 +230,6 @@
 
 % stack of key-value elements, used to save personal information
 \RequirePackage{bankingcvcollection}
-
-% compatibility package with older versions of moderncv
-\RequirePackageWithOptions{bankingcvcompatibility}
 
 \RequirePackage{expl3}
 
@@ -465,12 +463,15 @@
 % usage: \makefooter
 \newcommand*{\makefooter}{}%
 
-% sets the color scheme (loads bankingcvcolor<name> immediately and records it for
-% the \AtEndPreamble auto-load; overrides any color class option)
+% sets the color scheme and records it for the \AtEndPreamble auto-load;
+% overrides any color class option
 % usage: \bankingcvcolor{<color name>}
 \newcommand*{\bankingcvcolor}[1]{%
   \renewcommand*{\@bankingcvcolorname}{#1}%
-  \RequirePackage{bankingcvcolor#1}}
+  \@ifpackageloaded{bankingcvcolor}{%
+    \bankingcvsetcolor{#1}}{%
+    \RequirePackage{bankingcvcolor}%
+    \bankingcvsetcolor{#1}}}
 
 % appends options to the style options accumulator (overrides class options if called
 % after \documentclass; the style itself is auto-loaded at \AtEndPreamble)

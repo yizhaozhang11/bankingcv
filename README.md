@@ -20,7 +20,7 @@ To get started on your own CV, use and modify the template file `template.tex`.
 In your document preamble, use:
 ```latex
 \documentclass[11pt,a4paper,sans]{bankingcv}
-\moderncvcolor{blue}   % color options: 'black', 'blue' (default), 'burgundy', 'green', 'grey', 'orange', 'purple', 'red'
+\bankingcvcolor{blue}   % color options: 'black', 'blue' (default), 'burgundy', 'green', 'grey', 'orange', 'purple', 'red'
 ```
 
 If you are using the [`academicons`](https://ctan.org/tex-archive/fonts/academicons) package in the template, you will need to use a Xe(La)TeX or Lua(La)TeX engine to render the icons. Otherwise, an alternative icon package will be used automatically.

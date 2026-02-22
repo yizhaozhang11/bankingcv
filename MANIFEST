@@ -1,4 +1,4 @@
-% MANIFEST for the bankingcv package (v1.0.0)
+% MANIFEST for the bankingcv package (v1.3.0)
 %
 % bankingcv is a derived work of the moderncv package
 % (https://ctan.org/pkg/moderncv), distributed under the
@@ -25,16 +25,8 @@ bankingcvbody.sty
 bankingcvfoot.sty
 
 % -- Colors --
+bankingcvcolor.sty
 bankingcvcolors.sty
-bankingcvcolorblack.sty
-bankingcvcolorblue.sty
-bankingcvcolorburgundy.sty
-bankingcvcolorcerulean.sty
-bankingcvcolorgreen.sty
-bankingcvcolorgrey.sty
-bankingcvcolororange.sty
-bankingcvcolorpurple.sty
-bankingcvcolorred.sty
 
 % -- Icons --
 bankingcviconssymbols.sty
@@ -46,7 +38,6 @@ bankingcviconstikz.sty
 
 % -- Utilities --
 bankingcvcollection.sty
-bankingcvcompatibility.sty
 bankingcvdebugtools.sty
 bankingcvskillmatrix.sty
 tweaklist.sty

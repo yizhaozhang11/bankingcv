@@ -1,0 +1,144 @@
+%% start of file `bankingcvcolor.sty'.
+%% Copyright 2006-2015 Xavier Danaux (xdanaux@gmail.com), 2020-2026 moderncv maintainers (github.com/moderncv).
+%% Copyright 2026 yizhaozhang11 (github.com/yizhaozhang11/bankingcv).
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License version 1.3c,
+% available at http://www.latex-project.org/lppl/.
+%
+% This work has the LPPL maintenance status 'maintained'.
+%
+% The Current Maintainer of this work is yizhaozhang11
+% (github.com/yizhaozhang11/bankingcv).
+%
+% This file is a modified derivative of the corresponding file from the
+% moderncv package (https://ctan.org/pkg/moderncv). A complete and accurate
+% log of changes from the original is contained in the file CHANGELOG
+% distributed as part of this work.
+
+
+%-------------------------------------------------------------------------------
+%                identification
+%-------------------------------------------------------------------------------
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{bankingcvcolor}[2026-02-22 v1.2.0 modern curriculum vitae and letter color schemes]
+
+
+%-------------------------------------------------------------------------------
+%                requirements
+%-------------------------------------------------------------------------------
+\RequirePackage{bankingcvcolors}
+
+
+%-------------------------------------------------------------------------------
+%                color schemes
+%-------------------------------------------------------------------------------
+\newcommand*{\bankingcv@scheme@black}{%
+  \colorlet{color0}{black}%
+  \colorlet{color1}{black}%
+  \colorlet{color2}{black}%
+  \colorlet{headTL}{lightblack}%
+  \colorlet{headBR}{color1}%
+  \colorlet{headtext}{white}%
+  \colorlet{headhr}{color2}}
+
+\newcommand*{\bankingcv@scheme@blue}{%
+  \colorlet{color0}{black}%
+  \colorlet{color1}{lightblue}%
+  \colorlet{color2}{darkgrey}%
+  \colorlet{headTL}{lightskyblue}%
+  \colorlet{headBR}{color1}%
+  \colorlet{headtext}{white}%
+  \colorlet{headhr}{color2}}
+
+\newcommand*{\bankingcv@scheme@burgundy}{%
+  \colorlet{color0}{black}%
+  \colorlet{color1}{burgundy}%
+  \colorlet{color2}{darkgrey}%
+  \colorlet{headTL}{darkred}%
+  \colorlet{headBR}{color1}%
+  \colorlet{headtext}{white}%
+  \colorlet{headhr}{color2}}
+
+\newcommand*{\bankingcv@scheme@cerulean}{%
+  \colorlet{color0}{black}%
+  \colorlet{color1}{cerulean}%
+  \colorlet{color2}{darkcyan}%
+  \colorlet{headTL}{verdigris}%
+  \colorlet{headBR}{color1}%
+  \colorlet{headtext}{white}%
+  \colorlet{headhr}{color2}}
+
+\newcommand*{\bankingcv@scheme@green}{%
+  \colorlet{color0}{black}%
+  \colorlet{color1}{green}%
+  \colorlet{color2}{darkgrey}%
+  \colorlet{headTL}{palegreen}%
+  \colorlet{headBR}{color1}%
+  \colorlet{headtext}{white}%
+  \colorlet{headhr}{color2}}
+
+\newcommand*{\bankingcv@scheme@grey}{%
+  \colorlet{color0}{black}%
+  \colorlet{color1}{darkgrey}%
+  \colorlet{color2}{darkgrey}%
+  \colorlet{headTL}{lightgrey}%
+  \colorlet{headBR}{color1}%
+  \colorlet{headtext}{white}%
+  \colorlet{headhr}{color2}}
+
+\newcommand*{\bankingcv@scheme@orange}{%
+  \colorlet{color0}{black}%
+  \colorlet{color1}{orange}%
+  \colorlet{color2}{darkgrey}%
+  \colorlet{headTL}{lightorange}%
+  \colorlet{headBR}{color1}%
+  \colorlet{headtext}{white}%
+  \colorlet{headhr}{color2}}
+
+\newcommand*{\bankingcv@scheme@purple}{%
+  \colorlet{color0}{black}%
+  \colorlet{color1}{purple}%
+  \colorlet{color2}{darkgrey}%
+  \colorlet{headTL}{lavender}%
+  \colorlet{headBR}{color1}%
+  \colorlet{headtext}{white}%
+  \colorlet{headhr}{color2}}
+
+\newcommand*{\bankingcv@scheme@red}{%
+  \colorlet{color0}{black}%
+  \colorlet{color1}{red}%
+  \colorlet{color2}{darkgrey}%
+  \colorlet{headTL}{firebrick}%
+  \colorlet{headBR}{color1}%
+  \colorlet{headtext}{white}%
+  \colorlet{headhr}{color2}}
+
+\newcommand*{\bankingcvsetcolor}[1]{%
+  \@ifundefined{bankingcv@scheme@#1}{%
+    \PackageError{bankingcvcolor}{Unknown color scheme '#1'}%
+      {Use one of: black, blue, burgundy, cerulean, green, grey, orange, purple, red.}%
+  }{%
+    \csname bankingcv@scheme@#1\endcsname}}
+
+
+%-------------------------------------------------------------------------------
+%                options
+%-------------------------------------------------------------------------------
+\DeclareOption{black}    {\bankingcvsetcolor{black}}
+\DeclareOption{blue}     {\bankingcvsetcolor{blue}}
+\DeclareOption{burgundy} {\bankingcvsetcolor{burgundy}}
+\DeclareOption{cerulean} {\bankingcvsetcolor{cerulean}}
+\DeclareOption{green}    {\bankingcvsetcolor{green}}
+\DeclareOption{grey}     {\bankingcvsetcolor{grey}}
+\DeclareOption{orange}   {\bankingcvsetcolor{orange}}
+\DeclareOption{purple}   {\bankingcvsetcolor{purple}}
+\DeclareOption{red}      {\bankingcvsetcolor{red}}
+\DeclareOption*          {\bankingcvsetcolor{\CurrentOption}}
+\ExecuteOptions{blue}
+\ProcessOptions\relax
+
+\endinput
+
+
+%% end of file `bankingcvcolor.sty'.
