@@ -25,6 +25,17 @@ In your document preamble, use:
 
 The package now uses letters-only contact/social markers (`bankingcviconsletters.sty`) to keep dependencies minimal.
 
+### Typst
+A Typst translation is available as:
+
+- `bankingcv.typ`: reusable Typst functions mirroring the main `bankingcv` CV and letter primitives
+- `template.typ`: a Typst sample document translated from `template.tex`
+
+Compile with:
+```
+typst compile ./template.typ
+```
+
 ## Licence
 
 `bankingcv` is licensed under the [LPPL-1.3c](https://spdx.org/licenses/LPPL-1.3c.html).
